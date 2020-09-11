@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="riskrate-data",
-    version="0.0.1",
+    version="0.0.2",
     author="Andrei Gorbulin",
     author_email="andrei@riskrate.io",
     description="Riskrate Data client",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/riskrate/riskrate-data-python",
-    package_dir={'': 'riskrate_data'},
+    package_dir={'riskrate_data': 'riskrate_data'},
     packages=setuptools.find_packages(
         where='src', exclude=['generate_schema.py']
     ),

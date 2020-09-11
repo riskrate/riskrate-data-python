@@ -30,10 +30,9 @@ data_client = riskrate_data.DataClient(DATA_ADMIN_SECRET)
 
 # Get the query object (Optionally, you can set the name and variables)
 my_query = data_client.query(name='my_query', limit=non_null(int))
-# my_query = data_client.mutation()
-# my_query = data_client.subscription()
+# For mutations, use data_client.mutation()
 
-# Querying specific fields
+# Query specific fields
 my_query.invoice(limit=Variable('limit')).id()
 my_query.invoice.buyer_id()
 my_query.invoice.seller_id()
@@ -60,6 +59,8 @@ query my_query($limit: Int!) {
   }
 }
 ```
+
+You can find more use cases from [sgqlc page](https://github.com/profusion/sgqlc).
 
 Make query and immediately execute:
 
@@ -106,7 +107,7 @@ for company in result.company:
     print(company)
 ```
 
-GraphQL subscriptions via WebSockets are currently **not supported**. However, you can still use other GraphQL packages to get this functionality, namely `gql`.
+GraphQL subscriptions via WebSockets are currently **not supported**. However, you can still use other GraphQL packages to get this functionality, namely [gql](https://github.com/graphql-python/gql).
 
 ## Developing
 
