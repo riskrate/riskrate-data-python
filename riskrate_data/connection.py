@@ -1,5 +1,5 @@
 from sgqlc.operation import Operation
-from .graphql_schema import graphql_schema as schema
+from .schema import schema
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.endpoint.websocket import WebSocketEndpoint
 
