@@ -7,8 +7,8 @@ from sgqlc.introspection import query, variables
 
 
 def generate_schema(data_url, data_admin_secret):
-    JSON_PATH = './riskrate_data/graphql_schema.json'
-    SCHEMA_PATH = './riskrate_data/graphql_schema.py'
+    JSON_PATH = './riskrate_data/schema.json'
+    SCHEMA_PATH = './riskrate_data/schema.py'
 
     endpoint = HTTPEndpoint(
         DATA_URL, {'x-hasura-admin-secret': data_admin_secret}, None
