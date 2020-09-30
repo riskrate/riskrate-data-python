@@ -87,6 +87,25 @@ class date(sgqlc.types.Scalar):
     __schema__ = schema
 
 
+class float8(sgqlc.types.Scalar):
+    __schema__ = schema
+
+
+class forecast_constraint(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('forecast_pkey',)
+
+
+class forecast_select_column(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+
+
+class forecast_update_column(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+
+
 class group_constraint(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('group_pkey',)
@@ -730,7 +749,7 @@ class company_avg_order_by(sgqlc.types.Input):
 
 class company_bool_exp(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('_and', '_not', '_or', 'address', 'bank_transactions', 'bankruptcy', 'business_interruption', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'partial_invoices', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('_and', '_not', '_or', 'address', 'bank_transactions', 'bankruptcy', 'business_interruption', 'forecasts', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'partial_invoices', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
     _and = sgqlc.types.Field(sgqlc.types.list_of('company_bool_exp'), graphql_name='_and')
     _not = sgqlc.types.Field('company_bool_exp', graphql_name='_not')
     _or = sgqlc.types.Field(sgqlc.types.list_of('company_bool_exp'), graphql_name='_or')
@@ -738,6 +757,7 @@ class company_bool_exp(sgqlc.types.Input):
     bank_transactions = sgqlc.types.Field(bank_transaction_bool_exp, graphql_name='bank_transactions')
     bankruptcy = sgqlc.types.Field(Boolean_comparison_exp, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(Boolean_comparison_exp, graphql_name='business_interruption')
+    forecasts = sgqlc.types.Field('forecast_bool_exp', graphql_name='forecasts')
     founded_date = sgqlc.types.Field('date_comparison_exp', graphql_name='founded_date')
     groups = sgqlc.types.Field('group_bool_exp', graphql_name='groups')
     id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
@@ -763,11 +783,12 @@ class company_inc_input(sgqlc.types.Input):
 
 class company_insert_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('address', 'bank_transactions', 'bankruptcy', 'business_interruption', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'partial_invoices', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('address', 'bank_transactions', 'bankruptcy', 'business_interruption', 'forecasts', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'partial_invoices', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
     address = sgqlc.types.Field(String, graphql_name='address')
     bank_transactions = sgqlc.types.Field(bank_transaction_arr_rel_insert_input, graphql_name='bank_transactions')
     bankruptcy = sgqlc.types.Field(Boolean, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(Boolean, graphql_name='business_interruption')
+    forecasts = sgqlc.types.Field('forecast_arr_rel_insert_input', graphql_name='forecasts')
     founded_date = sgqlc.types.Field(date, graphql_name='founded_date')
     groups = sgqlc.types.Field('group_arr_rel_insert_input', graphql_name='groups')
     id = sgqlc.types.Field(Int, graphql_name='id')
@@ -828,11 +849,12 @@ class company_on_conflict(sgqlc.types.Input):
 
 class company_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('address', 'bank_transactions_aggregate', 'bankruptcy', 'business_interruption', 'founded_date', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer_aggregate', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos_aggregate', 'partial_invoices_aggregate', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('address', 'bank_transactions_aggregate', 'bankruptcy', 'business_interruption', 'forecasts_aggregate', 'founded_date', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer_aggregate', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos_aggregate', 'partial_invoices_aggregate', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
     address = sgqlc.types.Field(order_by, graphql_name='address')
     bank_transactions_aggregate = sgqlc.types.Field(bank_transaction_aggregate_order_by, graphql_name='bank_transactions_aggregate')
     bankruptcy = sgqlc.types.Field(order_by, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(order_by, graphql_name='business_interruption')
+    forecasts_aggregate = sgqlc.types.Field('forecast_aggregate_order_by', graphql_name='forecasts_aggregate')
     founded_date = sgqlc.types.Field(order_by, graphql_name='founded_date')
     groups_aggregate = sgqlc.types.Field('group_aggregate_order_by', graphql_name='groups_aggregate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
@@ -1119,6 +1141,238 @@ class date_comparison_exp(sgqlc.types.Input):
     _lte = sgqlc.types.Field(date, graphql_name='_lte')
     _neq = sgqlc.types.Field(date, graphql_name='_neq')
     _nin = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(date)), graphql_name='_nin')
+
+
+class float8_comparison_exp(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('_eq', '_gt', '_gte', '_in', '_is_null', '_lt', '_lte', '_neq', '_nin')
+    _eq = sgqlc.types.Field(float8, graphql_name='_eq')
+    _gt = sgqlc.types.Field(float8, graphql_name='_gt')
+    _gte = sgqlc.types.Field(float8, graphql_name='_gte')
+    _in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(float8)), graphql_name='_in')
+    _is_null = sgqlc.types.Field(Boolean, graphql_name='_is_null')
+    _lt = sgqlc.types.Field(float8, graphql_name='_lt')
+    _lte = sgqlc.types.Field(float8, graphql_name='_lte')
+    _neq = sgqlc.types.Field(float8, graphql_name='_neq')
+    _nin = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(float8)), graphql_name='_nin')
+
+
+class forecast_aggregate_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('avg', 'count', 'max', 'min', 'stddev', 'stddev_pop', 'stddev_samp', 'sum', 'var_pop', 'var_samp', 'variance')
+    avg = sgqlc.types.Field('forecast_avg_order_by', graphql_name='avg')
+    count = sgqlc.types.Field(order_by, graphql_name='count')
+    max = sgqlc.types.Field('forecast_max_order_by', graphql_name='max')
+    min = sgqlc.types.Field('forecast_min_order_by', graphql_name='min')
+    stddev = sgqlc.types.Field('forecast_stddev_order_by', graphql_name='stddev')
+    stddev_pop = sgqlc.types.Field('forecast_stddev_pop_order_by', graphql_name='stddev_pop')
+    stddev_samp = sgqlc.types.Field('forecast_stddev_samp_order_by', graphql_name='stddev_samp')
+    sum = sgqlc.types.Field('forecast_sum_order_by', graphql_name='sum')
+    var_pop = sgqlc.types.Field('forecast_var_pop_order_by', graphql_name='var_pop')
+    var_samp = sgqlc.types.Field('forecast_var_samp_order_by', graphql_name='var_samp')
+    variance = sgqlc.types.Field('forecast_variance_order_by', graphql_name='variance')
+
+
+class forecast_arr_rel_insert_input(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('data', 'on_conflict')
+    data = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('forecast_insert_input'))), graphql_name='data')
+    on_conflict = sgqlc.types.Field('forecast_on_conflict', graphql_name='on_conflict')
+
+
+class forecast_avg_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_bool_exp(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('_and', '_not', '_or', 'company', 'company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    _and = sgqlc.types.Field(sgqlc.types.list_of('forecast_bool_exp'), graphql_name='_and')
+    _not = sgqlc.types.Field('forecast_bool_exp', graphql_name='_not')
+    _or = sgqlc.types.Field(sgqlc.types.list_of('forecast_bool_exp'), graphql_name='_or')
+    company = sgqlc.types.Field(company_bool_exp, graphql_name='company')
+    company_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='company_id')
+    date = sgqlc.types.Field(date_comparison_exp, graphql_name='date')
+    id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8_comparison_exp, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8_comparison_exp, graphql_name='median')
+    time_created = sgqlc.types.Field('timestamptz_comparison_exp', graphql_name='time_created')
+    time_updated = sgqlc.types.Field('timestamptz_comparison_exp', graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(float8_comparison_exp, graphql_name='upper_bound')
+
+
+class forecast_inc_input(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8, graphql_name='median')
+    upper_bound = sgqlc.types.Field(float8, graphql_name='upper_bound')
+
+
+class forecast_insert_input(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company', 'company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='company')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    date = sgqlc.types.Field('date', graphql_name='date')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8, graphql_name='median')
+    time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(float8, graphql_name='upper_bound')
+
+
+class forecast_max_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    date = sgqlc.types.Field(order_by, graphql_name='date')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_min_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    date = sgqlc.types.Field(order_by, graphql_name='date')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_obj_rel_insert_input(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('data', 'on_conflict')
+    data = sgqlc.types.Field(sgqlc.types.non_null(forecast_insert_input), graphql_name='data')
+    on_conflict = sgqlc.types.Field('forecast_on_conflict', graphql_name='on_conflict')
+
+
+class forecast_on_conflict(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('constraint', 'update_columns', 'where')
+    constraint = sgqlc.types.Field(sgqlc.types.non_null(forecast_constraint), graphql_name='constraint')
+    update_columns = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(forecast_update_column))), graphql_name='update_columns')
+    where = sgqlc.types.Field(forecast_bool_exp, graphql_name='where')
+
+
+class forecast_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company', 'company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company = sgqlc.types.Field(company_order_by, graphql_name='company')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    date = sgqlc.types.Field(order_by, graphql_name='date')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_pk_columns_input(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('id',)
+    id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
+
+
+class forecast_set_input(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    date = sgqlc.types.Field('date', graphql_name='date')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8, graphql_name='median')
+    time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(float8, graphql_name='upper_bound')
+
+
+class forecast_stddev_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_stddev_pop_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_stddev_samp_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_sum_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_var_pop_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_var_samp_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
+
+
+class forecast_variance_order_by(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    id = sgqlc.types.Field(order_by, graphql_name='id')
+    lower_bound = sgqlc.types.Field(order_by, graphql_name='lower_bound')
+    median = sgqlc.types.Field(order_by, graphql_name='median')
+    upper_bound = sgqlc.types.Field(order_by, graphql_name='upper_bound')
 
 
 class group_aggregate_order_by(sgqlc.types.Input):
@@ -3349,7 +3603,7 @@ class bank_transaction_variance_fields(sgqlc.types.Type):
 
 class company(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('address', 'bank_transactions', 'bank_transactions_aggregate', 'bankruptcy', 'business_interruption', 'founded_date', 'groups', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_buyer_aggregate', 'invoices_by_seller', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos', 'netvisor_infos_aggregate', 'partial_invoices', 'partial_invoices_aggregate', 'procountor_infos', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('address', 'bank_transactions', 'bank_transactions_aggregate', 'bankruptcy', 'business_interruption', 'forecasts', 'forecasts_aggregate', 'founded_date', 'groups', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_buyer_aggregate', 'invoices_by_seller', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos', 'netvisor_infos_aggregate', 'partial_invoices', 'partial_invoices_aggregate', 'procountor_infos', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
     address = sgqlc.types.Field(String, graphql_name='address')
     bank_transactions = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction))), graphql_name='bank_transactions', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction_select_column)), graphql_name='distinct_on', default=None)),
@@ -3369,6 +3623,22 @@ class company(sgqlc.types.Type):
     )
     bankruptcy = sgqlc.types.Field(Boolean, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(Boolean, graphql_name='business_interruption')
+    forecasts = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('forecast'))), graphql_name='forecasts', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_select_column)), graphql_name='distinct_on', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(forecast_bool_exp, graphql_name='where', default=None)),
+))
+    )
+    forecasts_aggregate = sgqlc.types.Field(sgqlc.types.non_null('forecast_aggregate'), graphql_name='forecasts_aggregate', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_select_column)), graphql_name='distinct_on', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(forecast_bool_exp, graphql_name='where', default=None)),
+))
+    )
     founded_date = sgqlc.types.Field(date, graphql_name='founded_date')
     groups = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('group'))), graphql_name='groups', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(group_select_column)), graphql_name='distinct_on', default=None)),
@@ -3726,6 +3996,160 @@ class customer_variance_fields(sgqlc.types.Type):
     __field_names__ = ('group_id', 'id')
     group_id = sgqlc.types.Field(Float, graphql_name='group_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
+
+
+class forecast(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company', 'company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company = sgqlc.types.Field(sgqlc.types.non_null('company'), graphql_name='company')
+    company_id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='company_id')
+    date = sgqlc.types.Field(sgqlc.types.non_null('date'), graphql_name='date')
+    id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8, graphql_name='median')
+    time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(float8, graphql_name='upper_bound')
+
+
+class forecast_aggregate(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('aggregate', 'nodes')
+    aggregate = sgqlc.types.Field('forecast_aggregate_fields', graphql_name='aggregate')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(forecast))), graphql_name='nodes')
+
+
+class forecast_aggregate_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('avg', 'count', 'max', 'min', 'stddev', 'stddev_pop', 'stddev_samp', 'sum', 'var_pop', 'var_samp', 'variance')
+    avg = sgqlc.types.Field('forecast_avg_fields', graphql_name='avg')
+    count = sgqlc.types.Field(Int, graphql_name='count', args=sgqlc.types.ArgDict((
+        ('columns', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_select_column)), graphql_name='columns', default=None)),
+        ('distinct', sgqlc.types.Arg(Boolean, graphql_name='distinct', default=None)),
+))
+    )
+    max = sgqlc.types.Field('forecast_max_fields', graphql_name='max')
+    min = sgqlc.types.Field('forecast_min_fields', graphql_name='min')
+    stddev = sgqlc.types.Field('forecast_stddev_fields', graphql_name='stddev')
+    stddev_pop = sgqlc.types.Field('forecast_stddev_pop_fields', graphql_name='stddev_pop')
+    stddev_samp = sgqlc.types.Field('forecast_stddev_samp_fields', graphql_name='stddev_samp')
+    sum = sgqlc.types.Field('forecast_sum_fields', graphql_name='sum')
+    var_pop = sgqlc.types.Field('forecast_var_pop_fields', graphql_name='var_pop')
+    var_samp = sgqlc.types.Field('forecast_var_samp_fields', graphql_name='var_samp')
+    variance = sgqlc.types.Field('forecast_variance_fields', graphql_name='variance')
+
+
+class forecast_avg_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
+    id = sgqlc.types.Field(Float, graphql_name='id')
+    lower_bound = sgqlc.types.Field(Float, graphql_name='lower_bound')
+    median = sgqlc.types.Field(Float, graphql_name='median')
+    upper_bound = sgqlc.types.Field(Float, graphql_name='upper_bound')
+
+
+class forecast_max_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    date = sgqlc.types.Field('date', graphql_name='date')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8, graphql_name='median')
+    time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(float8, graphql_name='upper_bound')
+
+
+class forecast_min_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'date', 'id', 'lower_bound', 'median', 'time_created', 'time_updated', 'upper_bound')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    date = sgqlc.types.Field('date', graphql_name='date')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8, graphql_name='median')
+    time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
+    time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
+    upper_bound = sgqlc.types.Field(float8, graphql_name='upper_bound')
+
+
+class forecast_mutation_response(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('affected_rows', 'returning')
+    affected_rows = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='affected_rows')
+    returning = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(forecast))), graphql_name='returning')
+
+
+class forecast_stddev_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
+    id = sgqlc.types.Field(Float, graphql_name='id')
+    lower_bound = sgqlc.types.Field(Float, graphql_name='lower_bound')
+    median = sgqlc.types.Field(Float, graphql_name='median')
+    upper_bound = sgqlc.types.Field(Float, graphql_name='upper_bound')
+
+
+class forecast_stddev_pop_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
+    id = sgqlc.types.Field(Float, graphql_name='id')
+    lower_bound = sgqlc.types.Field(Float, graphql_name='lower_bound')
+    median = sgqlc.types.Field(Float, graphql_name='median')
+    upper_bound = sgqlc.types.Field(Float, graphql_name='upper_bound')
+
+
+class forecast_stddev_samp_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
+    id = sgqlc.types.Field(Float, graphql_name='id')
+    lower_bound = sgqlc.types.Field(Float, graphql_name='lower_bound')
+    median = sgqlc.types.Field(Float, graphql_name='median')
+    upper_bound = sgqlc.types.Field(Float, graphql_name='upper_bound')
+
+
+class forecast_sum_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    lower_bound = sgqlc.types.Field(float8, graphql_name='lower_bound')
+    median = sgqlc.types.Field(float8, graphql_name='median')
+    upper_bound = sgqlc.types.Field(float8, graphql_name='upper_bound')
+
+
+class forecast_var_pop_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
+    id = sgqlc.types.Field(Float, graphql_name='id')
+    lower_bound = sgqlc.types.Field(Float, graphql_name='lower_bound')
+    median = sgqlc.types.Field(Float, graphql_name='median')
+    upper_bound = sgqlc.types.Field(Float, graphql_name='upper_bound')
+
+
+class forecast_var_samp_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
+    id = sgqlc.types.Field(Float, graphql_name='id')
+    lower_bound = sgqlc.types.Field(Float, graphql_name='lower_bound')
+    median = sgqlc.types.Field(Float, graphql_name='median')
+    upper_bound = sgqlc.types.Field(Float, graphql_name='upper_bound')
+
+
+class forecast_variance_fields(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('company_id', 'id', 'lower_bound', 'median', 'upper_bound')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
+    id = sgqlc.types.Field(Float, graphql_name='id')
+    lower_bound = sgqlc.types.Field(Float, graphql_name='lower_bound')
+    median = sgqlc.types.Field(Float, graphql_name='median')
+    upper_bound = sgqlc.types.Field(Float, graphql_name='upper_bound')
 
 
 class group(sgqlc.types.Type):
@@ -4291,7 +4715,7 @@ class invoice_variance_fields(sgqlc.types.Type):
 
 class mutation_root(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('delete_bank_transaction', 'delete_bank_transaction_by_pk', 'delete_bank_transaction_type_enum', 'delete_bank_transaction_type_enum_by_pk', 'delete_company', 'delete_company_by_pk', 'delete_customer', 'delete_customer_by_pk', 'delete_group', 'delete_group_by_pk', 'delete_group_relation', 'delete_group_relation_by_pk', 'delete_invoice', 'delete_invoice_by_pk', 'delete_invoice_type_enum', 'delete_invoice_type_enum_by_pk', 'delete_netvisor_info', 'delete_netvisor_info_by_pk', 'delete_partial_invoice', 'delete_partial_invoice_by_pk', 'delete_payment', 'delete_payment_by_pk', 'delete_procountor_info', 'delete_procountor_info_by_pk', 'delete_role', 'delete_role_by_pk', 'delete_roles_customers', 'delete_source_enum', 'delete_source_enum_by_pk', 'insert_bank_transaction', 'insert_bank_transaction_one', 'insert_bank_transaction_type_enum', 'insert_bank_transaction_type_enum_one', 'insert_company', 'insert_company_one', 'insert_customer', 'insert_customer_one', 'insert_group', 'insert_group_one', 'insert_group_relation', 'insert_group_relation_one', 'insert_invoice', 'insert_invoice_one', 'insert_invoice_type_enum', 'insert_invoice_type_enum_one', 'insert_netvisor_info', 'insert_netvisor_info_one', 'insert_partial_invoice', 'insert_partial_invoice_one', 'insert_payment', 'insert_payment_one', 'insert_procountor_info', 'insert_procountor_info_one', 'insert_role', 'insert_role_one', 'insert_roles_customers', 'insert_roles_customers_one', 'insert_source_enum', 'insert_source_enum_one', 'update_bank_transaction', 'update_bank_transaction_by_pk', 'update_bank_transaction_type_enum', 'update_bank_transaction_type_enum_by_pk', 'update_company', 'update_company_by_pk', 'update_customer', 'update_customer_by_pk', 'update_group', 'update_group_by_pk', 'update_group_relation', 'update_group_relation_by_pk', 'update_invoice', 'update_invoice_by_pk', 'update_invoice_type_enum', 'update_invoice_type_enum_by_pk', 'update_netvisor_info', 'update_netvisor_info_by_pk', 'update_partial_invoice', 'update_partial_invoice_by_pk', 'update_payment', 'update_payment_by_pk', 'update_procountor_info', 'update_procountor_info_by_pk', 'update_role', 'update_role_by_pk', 'update_roles_customers', 'update_source_enum', 'update_source_enum_by_pk')
+    __field_names__ = ('delete_bank_transaction', 'delete_bank_transaction_by_pk', 'delete_bank_transaction_type_enum', 'delete_bank_transaction_type_enum_by_pk', 'delete_company', 'delete_company_by_pk', 'delete_customer', 'delete_customer_by_pk', 'delete_forecast', 'delete_forecast_by_pk', 'delete_group', 'delete_group_by_pk', 'delete_group_relation', 'delete_group_relation_by_pk', 'delete_invoice', 'delete_invoice_by_pk', 'delete_invoice_type_enum', 'delete_invoice_type_enum_by_pk', 'delete_netvisor_info', 'delete_netvisor_info_by_pk', 'delete_partial_invoice', 'delete_partial_invoice_by_pk', 'delete_payment', 'delete_payment_by_pk', 'delete_procountor_info', 'delete_procountor_info_by_pk', 'delete_role', 'delete_role_by_pk', 'delete_roles_customers', 'delete_source_enum', 'delete_source_enum_by_pk', 'insert_bank_transaction', 'insert_bank_transaction_one', 'insert_bank_transaction_type_enum', 'insert_bank_transaction_type_enum_one', 'insert_company', 'insert_company_one', 'insert_customer', 'insert_customer_one', 'insert_forecast', 'insert_forecast_one', 'insert_group', 'insert_group_one', 'insert_group_relation', 'insert_group_relation_one', 'insert_invoice', 'insert_invoice_one', 'insert_invoice_type_enum', 'insert_invoice_type_enum_one', 'insert_netvisor_info', 'insert_netvisor_info_one', 'insert_partial_invoice', 'insert_partial_invoice_one', 'insert_payment', 'insert_payment_one', 'insert_procountor_info', 'insert_procountor_info_one', 'insert_role', 'insert_role_one', 'insert_roles_customers', 'insert_roles_customers_one', 'insert_source_enum', 'insert_source_enum_one', 'update_bank_transaction', 'update_bank_transaction_by_pk', 'update_bank_transaction_type_enum', 'update_bank_transaction_type_enum_by_pk', 'update_company', 'update_company_by_pk', 'update_customer', 'update_customer_by_pk', 'update_forecast', 'update_forecast_by_pk', 'update_group', 'update_group_by_pk', 'update_group_relation', 'update_group_relation_by_pk', 'update_invoice', 'update_invoice_by_pk', 'update_invoice_type_enum', 'update_invoice_type_enum_by_pk', 'update_netvisor_info', 'update_netvisor_info_by_pk', 'update_partial_invoice', 'update_partial_invoice_by_pk', 'update_payment', 'update_payment_by_pk', 'update_procountor_info', 'update_procountor_info_by_pk', 'update_role', 'update_role_by_pk', 'update_roles_customers', 'update_source_enum', 'update_source_enum_by_pk')
     delete_bank_transaction = sgqlc.types.Field(bank_transaction_mutation_response, graphql_name='delete_bank_transaction', args=sgqlc.types.ArgDict((
         ('where', sgqlc.types.Arg(sgqlc.types.non_null(bank_transaction_bool_exp), graphql_name='where', default=None)),
 ))
@@ -4321,6 +4745,14 @@ class mutation_root(sgqlc.types.Type):
 ))
     )
     delete_customer_by_pk = sgqlc.types.Field(customer, graphql_name='delete_customer_by_pk', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
+))
+    )
+    delete_forecast = sgqlc.types.Field(forecast_mutation_response, graphql_name='delete_forecast', args=sgqlc.types.ArgDict((
+        ('where', sgqlc.types.Arg(sgqlc.types.non_null(forecast_bool_exp), graphql_name='where', default=None)),
+))
+    )
+    delete_forecast_by_pk = sgqlc.types.Field(forecast, graphql_name='delete_forecast_by_pk', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
@@ -4447,6 +4879,16 @@ class mutation_root(sgqlc.types.Type):
     insert_customer_one = sgqlc.types.Field(customer, graphql_name='insert_customer_one', args=sgqlc.types.ArgDict((
         ('object', sgqlc.types.Arg(sgqlc.types.non_null(customer_insert_input), graphql_name='object', default=None)),
         ('on_conflict', sgqlc.types.Arg(customer_on_conflict, graphql_name='on_conflict', default=None)),
+))
+    )
+    insert_forecast = sgqlc.types.Field(forecast_mutation_response, graphql_name='insert_forecast', args=sgqlc.types.ArgDict((
+        ('objects', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(forecast_insert_input))), graphql_name='objects', default=None)),
+        ('on_conflict', sgqlc.types.Arg(forecast_on_conflict, graphql_name='on_conflict', default=None)),
+))
+    )
+    insert_forecast_one = sgqlc.types.Field(forecast, graphql_name='insert_forecast_one', args=sgqlc.types.ArgDict((
+        ('object', sgqlc.types.Arg(sgqlc.types.non_null(forecast_insert_input), graphql_name='object', default=None)),
+        ('on_conflict', sgqlc.types.Arg(forecast_on_conflict, graphql_name='on_conflict', default=None)),
 ))
     )
     insert_group = sgqlc.types.Field(group_mutation_response, graphql_name='insert_group', args=sgqlc.types.ArgDict((
@@ -4601,6 +5043,18 @@ class mutation_root(sgqlc.types.Type):
         ('_inc', sgqlc.types.Arg(customer_inc_input, graphql_name='_inc', default=None)),
         ('_set', sgqlc.types.Arg(customer_set_input, graphql_name='_set', default=None)),
         ('pk_columns', sgqlc.types.Arg(sgqlc.types.non_null(customer_pk_columns_input), graphql_name='pk_columns', default=None)),
+))
+    )
+    update_forecast = sgqlc.types.Field(forecast_mutation_response, graphql_name='update_forecast', args=sgqlc.types.ArgDict((
+        ('_inc', sgqlc.types.Arg(forecast_inc_input, graphql_name='_inc', default=None)),
+        ('_set', sgqlc.types.Arg(forecast_set_input, graphql_name='_set', default=None)),
+        ('where', sgqlc.types.Arg(sgqlc.types.non_null(forecast_bool_exp), graphql_name='where', default=None)),
+))
+    )
+    update_forecast_by_pk = sgqlc.types.Field(forecast, graphql_name='update_forecast_by_pk', args=sgqlc.types.ArgDict((
+        ('_inc', sgqlc.types.Arg(forecast_inc_input, graphql_name='_inc', default=None)),
+        ('_set', sgqlc.types.Arg(forecast_set_input, graphql_name='_set', default=None)),
+        ('pk_columns', sgqlc.types.Arg(sgqlc.types.non_null(forecast_pk_columns_input), graphql_name='pk_columns', default=None)),
 ))
     )
     update_group = sgqlc.types.Field(group_mutation_response, graphql_name='update_group', args=sgqlc.types.ArgDict((
@@ -5329,7 +5783,7 @@ class procountor_info_variance_fields(sgqlc.types.Type):
 
 class query_root(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('bank_transaction', 'bank_transaction_aggregate', 'bank_transaction_by_pk', 'bank_transaction_type_enum', 'bank_transaction_type_enum_aggregate', 'bank_transaction_type_enum_by_pk', 'company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'partial_invoice', 'partial_invoice_aggregate', 'partial_invoice_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
+    __field_names__ = ('bank_transaction', 'bank_transaction_aggregate', 'bank_transaction_by_pk', 'bank_transaction_type_enum', 'bank_transaction_type_enum_aggregate', 'bank_transaction_type_enum_by_pk', 'company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'forecast', 'forecast_aggregate', 'forecast_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'partial_invoice', 'partial_invoice_aggregate', 'partial_invoice_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
     bank_transaction = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('bank_transaction'))), graphql_name='bank_transaction', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
@@ -5407,6 +5861,26 @@ class query_root(sgqlc.types.Type):
 ))
     )
     customer_by_pk = sgqlc.types.Field('customer', graphql_name='customer_by_pk', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
+))
+    )
+    forecast = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('forecast'))), graphql_name='forecast', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_select_column)), graphql_name='distinct_on', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(forecast_bool_exp, graphql_name='where', default=None)),
+))
+    )
+    forecast_aggregate = sgqlc.types.Field(sgqlc.types.non_null('forecast_aggregate'), graphql_name='forecast_aggregate', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_select_column)), graphql_name='distinct_on', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(forecast_bool_exp, graphql_name='where', default=None)),
+))
+    )
+    forecast_by_pk = sgqlc.types.Field('forecast', graphql_name='forecast_by_pk', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
@@ -5964,7 +6438,7 @@ class source_enum_mutation_response(sgqlc.types.Type):
 
 class subscription_root(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('bank_transaction', 'bank_transaction_aggregate', 'bank_transaction_by_pk', 'bank_transaction_type_enum', 'bank_transaction_type_enum_aggregate', 'bank_transaction_type_enum_by_pk', 'company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'partial_invoice', 'partial_invoice_aggregate', 'partial_invoice_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
+    __field_names__ = ('bank_transaction', 'bank_transaction_aggregate', 'bank_transaction_by_pk', 'bank_transaction_type_enum', 'bank_transaction_type_enum_aggregate', 'bank_transaction_type_enum_by_pk', 'company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'forecast', 'forecast_aggregate', 'forecast_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'partial_invoice', 'partial_invoice_aggregate', 'partial_invoice_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
     bank_transaction = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('bank_transaction'))), graphql_name='bank_transaction', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
@@ -6042,6 +6516,26 @@ class subscription_root(sgqlc.types.Type):
 ))
     )
     customer_by_pk = sgqlc.types.Field('customer', graphql_name='customer_by_pk', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
+))
+    )
+    forecast = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('forecast'))), graphql_name='forecast', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_select_column)), graphql_name='distinct_on', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(forecast_bool_exp, graphql_name='where', default=None)),
+))
+    )
+    forecast_aggregate = sgqlc.types.Field(sgqlc.types.non_null('forecast_aggregate'), graphql_name='forecast_aggregate', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_select_column)), graphql_name='distinct_on', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(forecast_bool_exp, graphql_name='where', default=None)),
+))
+    )
+    forecast_by_pk = sgqlc.types.Field('forecast', graphql_name='forecast_by_pk', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
