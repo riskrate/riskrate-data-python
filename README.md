@@ -138,11 +138,11 @@ def insert_companies(query, data):
     Inserts companies into DB
     """
 
-    query.insert_companies(objects=data).affected_rows()
+    query.insert_company(objects=data).affected_rows()
     return query
 
 res = insert_chunked(companies, insert_companies)
-print('Affected rows: {}'.format(res.insert_companies.affected_rows))
+print('Affected rows: {}'.format(res.insert_company.affected_rows))
 ```
 
 ## Advanced use cases
