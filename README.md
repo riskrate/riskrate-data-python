@@ -90,7 +90,7 @@ for company in result.company:
 This package also provides an easy way to create unnamed queries with no variables called **simple functions**. You can import them from `riskrate_data`:
 
 ```python
-from riskrate_data import simple_query, simple_query_dict, insert_chunked
+from riskrate_data import simple_query, simple_query_dict, simple_mutation, insert_chunked
 ```
 
 `simple_query` and `simple_query_dict` are supposed to be used like decorators: each time you are given new `query` object, that you can use to make your query. In the end, you have to return the modified query object:
@@ -132,18 +132,20 @@ companies_df = pd.json_normalize(companies, sep='_')
 For mutations you have to use `insert_chunked`, it will split your data into pieces before mutating so you don't timeout:
 
 ```python
-@simple_insert
-def insert_companies(query, data):
+@simple_mutation
+def insert_companies(mutation, data):
     """
     Inserts companies into DB
     """
 
-    query.insert_company(objects=data).affected_rows()
-    return query
+    mutation.insert_company(objects=data).affected_rows()
+    return mutation
 
 res = insert_chunked(companies, insert_companies)
 print('Affected rows: {}'.format(res.insert_company.affected_rows))
 ```
+
+Be careful, `insert_chunked` assumes that your function accepts `data` as the second parameter (right after `mutation`).
 
 ## Advanced use cases
 

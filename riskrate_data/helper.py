@@ -32,7 +32,7 @@ def simple_query_dict(func):
     return wrapper
 
 
-def simple_insert(func):
+def simple_mutation(func):
     """
     Decorator to execute unnamed mutations without variables.
     Returns native python objects.
@@ -40,23 +40,27 @@ def simple_insert(func):
 
     def wrapper(*args, **kwargs):
         data_client = DataClient()
-        query = data_client.mutation()
-        result = func(query, *args, **kwargs)
-        return query + data_client.make_query(result).execute()
+        mutation = data_client.mutation()
+        result = func(mutation, *args, **kwargs)
+        return mutation + data_client.make_query(result).execute()
 
     return wrapper
 
 
-def insert_chunked(data, insert_func, split_size=5000):
+def insert_chunked(data, insert_func, *args, split_size=5000, **kwargs):
     """
     Inserts data into DB, splitting by chunks
     """
-    print("Inserting {} entries to the database...".format(len(data)))
 
     res = None
-    for i in range(0, len(data), split_size):
-        chunk = data[i : i + split_size]
-        r = insert_func(chunk)
-        res = r if res is None else res + r
+
+    # Special case for empty data
+    if not data:
+        res = insert_func(data, *args, *kwargs)
+    else:
+        for i in range(0, len(data), split_size):
+            chunk = data[i : i + split_size]
+            r = insert_func(chunk, *args, *kwargs)
+            res = r if res is None else res + r
 
     return res
