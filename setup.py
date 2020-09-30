@@ -5,8 +5,8 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="riskrate-data",
-    version="0.0.5",
-    author="Andrei Gorbulin",
+    version="0.0.6",
+    author="Arnor Nolen",
     author_email="andrei@riskrate.io",
     description="Riskrate Data client",
     long_description=long_description,
@@ -22,5 +22,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.5',
 )

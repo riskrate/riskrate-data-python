@@ -20,10 +20,6 @@ import riskrate_data
 # Set your admin secret key
 DATA_ADMIN_SECRET = 'YOUR_ADMIN_SECRET'
 
-# Set limit, so we don't query the whole database.
-# Specific order of entries is not guaranteed!
-LIMIT = 3
-
 # Construct a client
 data_client = riskrate_data.DataClient(DATA_ADMIN_SECRET)
 ```
@@ -36,6 +32,8 @@ data_client = riskrate_data.DataClient()
 
 However, to use this, proper instance (with `data_admin_secret`) should be created first.
 
+## Usage
+
 Next, you need to create a query object. You need to choose if you want to use `query`, `mutation` or `subscription`:
 
 ```python
@@ -44,9 +42,11 @@ my_mutation = data_client.mutation()
 my_subscription = data_client.subscription()
 ```
 
-After that, we can construct the query object to get all companies from the database:
+For simplicity, we will construct a query. Here's how we can construct a query object to get all companies from the database:
 
 ```python
+my_query = data_client.query()
+
 my_query_company = my_query.company()
 
 # Explicitly ask for fields
@@ -58,7 +58,7 @@ my_query_company.name()
 raw_result = data_client.make_query(my_query).execute()
 ```
 
-`execute()` returns a dictionary, which is useful, because it allows you to skip serialization and pass the data directly into `pandas.DataFrame()`. Don't forget that this is a GraphQL response, so you have to select the data yourself:
+`execute()` returns a dictionary. Don't forget that this is a GraphQL response, so you have to select the data yourself:
 
 ```python
 companies = raw_result['data']['company']
@@ -66,6 +66,13 @@ companies = raw_result['data']['company']
 # companies is a list of dicts
 for company in companies:
   print(company)
+```
+
+That is useful in combination with `pandas`. Before constructing DataFrame, we should flatten nested dicts (don't forget to `import pandas as pd`):
+
+```python
+companies_df = pd.json_normalize(companies, sep='_')
+print(companies_df.head())
 ```
 
 You can also parse the result into native Python objects:
@@ -76,6 +83,66 @@ result = my_query + raw_result
 # result.company is a list of company objects
 for company in result.company:
     print(company)
+```
+
+## "Simple" functions
+
+This package also provides an easy way to create unnamed queries with no variables called **simple functions**. You can import them from `riskrate_data`:
+
+```python
+from riskrate_data import simple_query, simple_query_dict, insert_chunked
+```
+
+`simple_query` and `simple_query_dict` are supposed to be used like decorators: each time you are given new `query` object, that you can use to make your query. In the end, you have to return the modified query object:
+
+```python
+@simple_query
+def get_all_companies(query):
+    """
+    Returns all companies from the database.
+    """
+
+    query.company.__fields__(
+        id=True, vat=True, name=True
+    )
+    return query
+
+companies = get_all_companies().company
+```
+
+The difference between `simple_query` and `simple_query_dict` is that the former returns native Python objects, but the latter returns dictionary. `simple_query_dict` works much faster and integrates nicely with `pandas`, so if you're analysing lots of data, use this:
+
+```python
+@simple_query_dict
+def get_all_companies_dict(query):
+    """
+    Returns all companies from the database.
+    """
+
+    query.company.__fields__(
+        id=True, vat=True, name=True
+    )
+    return query
+
+companies = get_all_companies_dict()['company']
+# Flatten if there are nested relations
+companies_df = pd.json_normalize(companies, sep='_')
+```
+
+For mutations you have to use `insert_chunked`, it will split your data into pieces before mutating so you don't timeout:
+
+```python
+@simple_insert
+def insert_companies(query, data):
+    """
+    Inserts companies into DB
+    """
+
+    query.insert_companies(objects=data).affected_rows()
+    return query
+
+res = insert_chunked(companies, insert_companies)
+print('Affected rows: {}'.format(res.insert_companies.affected_rows))
 ```
 
 ## Advanced use cases
@@ -98,10 +165,11 @@ my_query.invoice(limit=Variable('limit')).__fields__(id=True, buyer_id=True, sel
 # Or use a shortcut
 my_query.company(limit=Variable('limit')).__fields__('id', 'name', 'vat')
 
+# You can print out your query
 print(my_query)
 ```
 
-Now you can check your constructed query:
+This will result in the following query:
 
 ```graphql
 query my_query($limit: Int!) {
@@ -121,6 +189,10 @@ query my_query($limit: Int!) {
 Now, execute the query and pass your variables as a dictionary:
 
 ```python
+# Set limit, so we don't query the whole database.
+# Specific order of entries is not guaranteed!
+LIMIT = 10
+
 raw_result = data_client.make_query(my_query).execute({'limit': LIMIT})
 ```
 
@@ -131,6 +203,8 @@ You can also find more use cases from [sgqlc page](https://github.com/profusion/
 This library is made to abstract away from using direct queries. However, some use cases are not supported by `sgqlc`, so if you ever need to execute GraphQL queries directly, you can do it:
 
 ```python
+LIMIT = 10
+
 raw_result = data_client.make_query(
     """
     query test($limit: Int!) {
