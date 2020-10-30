@@ -234,5 +234,5 @@ Currently, GraphQL subscriptions via WebSockets are **not supported**. However, 
 If GraphQL schema of Riskrate Data changes, you have to regenerate all the Python classes. To regenerate classes using `sgqlc`, use:
 
 ```shell
-DATA_ADMIN_SECRET=YOUR_SECRET_KEY python riskrate_data/generate_schema.py
+DATA_ADMIN_SECRET=YOUR_SECRET_KEY python3 riskrate_data/generate_schema.py
 ```
