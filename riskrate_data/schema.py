@@ -158,7 +158,7 @@ class invoice_constraint(sgqlc.types.Enum):
 
 class invoice_select_column(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('amount', 'buyer_id', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
+    __choices__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
 
 
 class invoice_type_enum_constraint(sgqlc.types.Enum):
@@ -183,7 +183,7 @@ class invoice_type_enum_update_column(sgqlc.types.Enum):
 
 class invoice_update_column(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('amount', 'buyer_id', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
+    __choices__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
 
 
 class netvisor_info_constraint(sgqlc.types.Enum):
@@ -213,12 +213,12 @@ class partial_invoice_constraint(sgqlc.types.Enum):
 
 class partial_invoice_select_column(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('amount', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reason', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
+    __choices__ = ('amount', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reason', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
 
 
 class partial_invoice_update_column(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('amount', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reason', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
+    __choices__ = ('amount', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reason', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
 
 
 class payment_constraint(sgqlc.types.Enum):
@@ -1963,17 +1963,22 @@ class invoice_arr_rel_insert_input(sgqlc.types.Input):
 
 class invoice_avg_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class invoice_bool_exp(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('_and', '_not', '_or', 'amount', 'bank_transactions', 'buyer', 'buyer_id', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('_and', '_not', '_or', 'amount', 'bank_transactions', 'buyer', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments', 'provider_status', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     _and = sgqlc.types.Field(sgqlc.types.list_of('invoice_bool_exp'), graphql_name='_and')
     _not = sgqlc.types.Field('invoice_bool_exp', graphql_name='_not')
     _or = sgqlc.types.Field(sgqlc.types.list_of('invoice_bool_exp'), graphql_name='_or')
@@ -1981,13 +1986,20 @@ class invoice_bool_exp(sgqlc.types.Input):
     bank_transactions = sgqlc.types.Field(bank_transaction_bool_exp, graphql_name='bank_transactions')
     buyer = sgqlc.types.Field(company_bool_exp, graphql_name='buyer')
     buyer_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8_comparison_exp, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8_comparison_exp, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date_comparison_exp, graphql_name='create_date')
+    currency = sgqlc.types.Field(String_comparison_exp, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8_comparison_exp, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date_comparison_exp, graphql_name='due_date')
     id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_bool_exp', graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(float8_comparison_exp, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8_comparison_exp, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date_comparison_exp, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8_comparison_exp, graphql_name='payment_term_percentage')
     payments = sgqlc.types.Field('payment_bool_exp', graphql_name='payments')
+    provider_status = sgqlc.types.Field(String_comparison_exp, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(String_comparison_exp, graphql_name='reference_number')
     seller = sgqlc.types.Field(company_bool_exp, graphql_name='seller')
     seller_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='seller_id')
@@ -2001,28 +2013,40 @@ class invoice_bool_exp(sgqlc.types.Input):
 
 class invoice_inc_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Int, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
 
 
 class invoice_insert_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'bank_transactions', 'buyer', 'buyer_id', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'bank_transactions', 'buyer', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments', 'provider_status', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     bank_transactions = sgqlc.types.Field(bank_transaction_arr_rel_insert_input, graphql_name='bank_transactions')
     buyer = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='buyer')
     buyer_id = sgqlc.types.Field(Int, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_obj_rel_insert_input', graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     payments = sgqlc.types.Field('payment_arr_rel_insert_input', graphql_name='payments')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='seller')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
@@ -2036,14 +2060,21 @@ class invoice_insert_input(sgqlc.types.Input):
 
 class invoice_max_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(order_by, graphql_name='create_date')
+    currency = sgqlc.types.Field(order_by, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(order_by, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(order_by, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(order_by, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
     status = sgqlc.types.Field(order_by, graphql_name='status')
@@ -2053,14 +2084,21 @@ class invoice_max_order_by(sgqlc.types.Input):
 
 class invoice_min_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(order_by, graphql_name='create_date')
+    currency = sgqlc.types.Field(order_by, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(order_by, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(order_by, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(order_by, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
     status = sgqlc.types.Field(order_by, graphql_name='status')
@@ -2085,18 +2123,25 @@ class invoice_on_conflict(sgqlc.types.Input):
 
 class invoice_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'bank_transactions_aggregate', 'buyer', 'buyer_id', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments_aggregate', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'bank_transactions_aggregate', 'buyer', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments_aggregate', 'provider_status', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     bank_transactions_aggregate = sgqlc.types.Field(bank_transaction_aggregate_order_by, graphql_name='bank_transactions_aggregate')
     buyer = sgqlc.types.Field(company_order_by, graphql_name='buyer')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(order_by, graphql_name='create_date')
+    currency = sgqlc.types.Field(order_by, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_order_by', graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(order_by, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     payments_aggregate = sgqlc.types.Field('payment_aggregate_order_by', graphql_name='payments_aggregate')
+    provider_status = sgqlc.types.Field(order_by, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(order_by, graphql_name='reference_number')
     seller = sgqlc.types.Field(company_order_by, graphql_name='seller')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
@@ -2116,14 +2161,21 @@ class invoice_pk_columns_input(sgqlc.types.Input):
 
 class invoice_set_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Int, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
     source = sgqlc.types.Field(source_enum_enum, graphql_name='source')
@@ -2135,41 +2187,61 @@ class invoice_set_input(sgqlc.types.Input):
 
 class invoice_stddev_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class invoice_stddev_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class invoice_stddev_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class invoice_sum_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
@@ -2269,31 +2341,46 @@ class invoice_type_enum_set_input(sgqlc.types.Input):
 
 class invoice_var_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class invoice_var_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class invoice_variance_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_id = sgqlc.types.Field(order_by, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
@@ -2511,16 +2598,21 @@ class partial_invoice_arr_rel_insert_input(sgqlc.types.Input):
 
 class partial_invoice_avg_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class partial_invoice_bool_exp(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('_and', '_not', '_or', 'amount', 'bank_transactions', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('_and', '_not', '_or', 'amount', 'bank_transactions', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments', 'provider_status', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     _and = sgqlc.types.Field(sgqlc.types.list_of('partial_invoice_bool_exp'), graphql_name='_and')
     _not = sgqlc.types.Field('partial_invoice_bool_exp', graphql_name='_not')
     _or = sgqlc.types.Field(sgqlc.types.list_of('partial_invoice_bool_exp'), graphql_name='_or')
@@ -2528,13 +2620,20 @@ class partial_invoice_bool_exp(sgqlc.types.Input):
     bank_transactions = sgqlc.types.Field(bank_transaction_bool_exp, graphql_name='bank_transactions')
     buyer_name = sgqlc.types.Field(String_comparison_exp, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(String_comparison_exp, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(float8_comparison_exp, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8_comparison_exp, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date_comparison_exp, graphql_name='create_date')
+    currency = sgqlc.types.Field(String_comparison_exp, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8_comparison_exp, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date_comparison_exp, graphql_name='due_date')
     id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field(invoice_type_enum_bool_exp, graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(float8_comparison_exp, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8_comparison_exp, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date_comparison_exp, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8_comparison_exp, graphql_name='payment_term_percentage')
     payments = sgqlc.types.Field('payment_bool_exp', graphql_name='payments')
+    provider_status = sgqlc.types.Field(String_comparison_exp, graphql_name='provider_status')
     reason = sgqlc.types.Field(String_comparison_exp, graphql_name='reason')
     reference_number = sgqlc.types.Field(String_comparison_exp, graphql_name='reference_number')
     seller = sgqlc.types.Field(company_bool_exp, graphql_name='seller')
@@ -2549,27 +2648,39 @@ class partial_invoice_bool_exp(sgqlc.types.Input):
 
 class partial_invoice_inc_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
 
 
 class partial_invoice_insert_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'bank_transactions', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'bank_transactions', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments', 'provider_status', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     bank_transactions = sgqlc.types.Field(bank_transaction_arr_rel_insert_input, graphql_name='bank_transactions')
     buyer_name = sgqlc.types.Field(String, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(String, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field(invoice_type_enum_obj_rel_insert_input, graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     payments = sgqlc.types.Field('payment_arr_rel_insert_input', graphql_name='payments')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reason = sgqlc.types.Field(String, graphql_name='reason')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='seller')
@@ -2584,15 +2695,22 @@ class partial_invoice_insert_input(sgqlc.types.Input):
 
 class partial_invoice_max_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_name = sgqlc.types.Field(order_by, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(order_by, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(order_by, graphql_name='create_date')
+    currency = sgqlc.types.Field(order_by, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(order_by, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(order_by, graphql_name='provider_status')
     reason = sgqlc.types.Field(order_by, graphql_name='reason')
     reference_number = sgqlc.types.Field(order_by, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
@@ -2603,15 +2721,22 @@ class partial_invoice_max_order_by(sgqlc.types.Input):
 
 class partial_invoice_min_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     buyer_name = sgqlc.types.Field(order_by, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(order_by, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(order_by, graphql_name='create_date')
+    currency = sgqlc.types.Field(order_by, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(order_by, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(order_by, graphql_name='provider_status')
     reason = sgqlc.types.Field(order_by, graphql_name='reason')
     reference_number = sgqlc.types.Field(order_by, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
@@ -2637,18 +2762,25 @@ class partial_invoice_on_conflict(sgqlc.types.Input):
 
 class partial_invoice_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'bank_transactions_aggregate', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments_aggregate', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'bank_transactions_aggregate', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments_aggregate', 'provider_status', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     bank_transactions_aggregate = sgqlc.types.Field(bank_transaction_aggregate_order_by, graphql_name='bank_transactions_aggregate')
     buyer_name = sgqlc.types.Field(order_by, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(order_by, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(order_by, graphql_name='create_date')
+    currency = sgqlc.types.Field(order_by, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field(invoice_type_enum_order_by, graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(order_by, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     payments_aggregate = sgqlc.types.Field('payment_aggregate_order_by', graphql_name='payments_aggregate')
+    provider_status = sgqlc.types.Field(order_by, graphql_name='provider_status')
     reason = sgqlc.types.Field(order_by, graphql_name='reason')
     reference_number = sgqlc.types.Field(order_by, graphql_name='reference_number')
     seller = sgqlc.types.Field(company_order_by, graphql_name='seller')
@@ -2669,15 +2801,22 @@ class partial_invoice_pk_columns_input(sgqlc.types.Input):
 
 class partial_invoice_set_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reason', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reason', 'reference_number', 'seller_id', 'source', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_name = sgqlc.types.Field(String, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(String, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reason = sgqlc.types.Field(String, graphql_name='reason')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
@@ -2690,64 +2829,99 @@ class partial_invoice_set_input(sgqlc.types.Input):
 
 class partial_invoice_stddev_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class partial_invoice_stddev_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class partial_invoice_stddev_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class partial_invoice_sum_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class partial_invoice_var_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class partial_invoice_var_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
 class partial_invoice_variance_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(order_by, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(order_by, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(order_by, graphql_name='currency_rate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
+    original_amount = sgqlc.types.Field(order_by, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(order_by, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(order_by, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(order_by, graphql_name='seller_id')
 
 
@@ -4828,7 +5002,7 @@ class group_variance_fields(sgqlc.types.Type):
 
 class invoice(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'bank_transactions', 'bank_transactions_aggregate', 'buyer', 'buyer_id', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments', 'payments_aggregate', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'bank_transactions', 'bank_transactions_aggregate', 'buyer', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments', 'payments_aggregate', 'provider_status', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     bank_transactions = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction))), graphql_name='bank_transactions', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction_select_column)), graphql_name='distinct_on', default=None)),
@@ -4848,12 +5022,18 @@ class invoice(sgqlc.types.Type):
     )
     buyer = sgqlc.types.Field(company, graphql_name='buyer')
     buyer_id = sgqlc.types.Field(Int, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
     invoice_type_enum = sgqlc.types.Field(sgqlc.types.non_null('invoice_type_enum'), graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     payments = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('payment'))), graphql_name='payments', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(payment_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
@@ -4870,6 +5050,7 @@ class invoice(sgqlc.types.Type):
         ('where', sgqlc.types.Arg(payment_bool_exp, graphql_name='where', default=None)),
 ))
     )
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='reference_number')
     seller = sgqlc.types.Field(company, graphql_name='seller')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
@@ -4910,24 +5091,36 @@ class invoice_aggregate_fields(sgqlc.types.Type):
 
 class invoice_avg_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Float, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class invoice_max_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Int, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
     status = sgqlc.types.Field(String, graphql_name='status')
@@ -4937,14 +5130,21 @@ class invoice_max_fields(sgqlc.types.Type):
 
 class invoice_min_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Int, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
     status = sgqlc.types.Field(String, graphql_name='status')
@@ -4961,41 +5161,61 @@ class invoice_mutation_response(sgqlc.types.Type):
 
 class invoice_stddev_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Float, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class invoice_stddev_pop_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Float, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class invoice_stddev_samp_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Float, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class invoice_sum_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Int, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
 
 
@@ -5093,31 +5313,46 @@ class invoice_type_enum_mutation_response(sgqlc.types.Type):
 
 class invoice_var_pop_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Float, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class invoice_var_samp_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Float, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class invoice_variance_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_id', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'buyer_id', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
     buyer_id = sgqlc.types.Field(Float, graphql_name='buyer_id')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
@@ -5749,7 +5984,7 @@ class netvisor_info_variance_fields(sgqlc.types.Type):
 
 class partial_invoice(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'bank_transactions', 'bank_transactions_aggregate', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'invoice_type_enum', 'payed_amount', 'payment_date', 'payments', 'payments_aggregate', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('amount', 'bank_transactions', 'bank_transactions_aggregate', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'invoice_type_enum', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'payments', 'payments_aggregate', 'provider_status', 'reason', 'reference_number', 'seller', 'seller_id', 'source', 'source_enum', 'status', 'time_created', 'time_updated', 'type')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     bank_transactions = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction))), graphql_name='bank_transactions', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(bank_transaction_select_column)), graphql_name='distinct_on', default=None)),
@@ -5769,12 +6004,18 @@ class partial_invoice(sgqlc.types.Type):
     )
     buyer_name = sgqlc.types.Field(String, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(String, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
     invoice_type_enum = sgqlc.types.Field(sgqlc.types.non_null('invoice_type_enum'), graphql_name='invoice_type_enum')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     payments = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('payment'))), graphql_name='payments', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(payment_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
@@ -5791,6 +6032,7 @@ class partial_invoice(sgqlc.types.Type):
         ('where', sgqlc.types.Arg(payment_bool_exp, graphql_name='where', default=None)),
 ))
     )
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reason = sgqlc.types.Field(String, graphql_name='reason')
     reference_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='reference_number')
     seller = sgqlc.types.Field(company, graphql_name='seller')
@@ -5832,24 +6074,36 @@ class partial_invoice_aggregate_fields(sgqlc.types.Type):
 
 class partial_invoice_avg_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class partial_invoice_max_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_name = sgqlc.types.Field(String, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(String, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reason = sgqlc.types.Field(String, graphql_name='reason')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
@@ -5860,15 +6114,22 @@ class partial_invoice_max_fields(sgqlc.types.Type):
 
 class partial_invoice_min_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'create_date', 'due_date', 'id', 'payed_amount', 'payment_date', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'buyer_name', 'buyer_vat', 'cash_discount_percentage', 'cash_discount_term', 'create_date', 'currency', 'currency_rate', 'due_date', 'id', 'original_amount', 'payed_amount', 'payment_date', 'payment_term_percentage', 'provider_status', 'reason', 'reference_number', 'seller_id', 'status', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     buyer_name = sgqlc.types.Field(String, graphql_name='buyer_name')
     buyer_vat = sgqlc.types.Field(String, graphql_name='buyer_vat')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
     create_date = sgqlc.types.Field(date, graphql_name='create_date')
+    currency = sgqlc.types.Field(String, graphql_name='currency')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     due_date = sgqlc.types.Field(date, graphql_name='due_date')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
     payment_date = sgqlc.types.Field(date, graphql_name='payment_date')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
+    provider_status = sgqlc.types.Field(String, graphql_name='provider_status')
     reason = sgqlc.types.Field(String, graphql_name='reason')
     reference_number = sgqlc.types.Field(String, graphql_name='reference_number')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
@@ -5886,64 +6147,99 @@ class partial_invoice_mutation_response(sgqlc.types.Type):
 
 class partial_invoice_stddev_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class partial_invoice_stddev_pop_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class partial_invoice_stddev_samp_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class partial_invoice_sum_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(float8, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(float8, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(float8, graphql_name='currency_rate')
     id = sgqlc.types.Field(Int, graphql_name='id')
+    original_amount = sgqlc.types.Field(float8, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(float8, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(float8, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Int, graphql_name='seller_id')
 
 
 class partial_invoice_var_pop_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class partial_invoice_var_samp_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
 class partial_invoice_variance_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'payed_amount', 'seller_id')
+    __field_names__ = ('amount', 'cash_discount_percentage', 'cash_discount_term', 'currency_rate', 'id', 'original_amount', 'payed_amount', 'payment_term_percentage', 'seller_id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
+    cash_discount_percentage = sgqlc.types.Field(Float, graphql_name='cash_discount_percentage')
+    cash_discount_term = sgqlc.types.Field(Float, graphql_name='cash_discount_term')
+    currency_rate = sgqlc.types.Field(Float, graphql_name='currency_rate')
     id = sgqlc.types.Field(Float, graphql_name='id')
+    original_amount = sgqlc.types.Field(Float, graphql_name='original_amount')
     payed_amount = sgqlc.types.Field(Float, graphql_name='payed_amount')
+    payment_term_percentage = sgqlc.types.Field(Float, graphql_name='payment_term_percentage')
     seller_id = sgqlc.types.Field(Float, graphql_name='seller_id')
 
 
