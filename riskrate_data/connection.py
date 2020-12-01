@@ -1,6 +1,6 @@
 from sgqlc.operation import Operation
-from .schema import schema as schema_prod
-from .schema_dev import schema as schema_dev
+from .schema import schema
+from .schema_dev import schema_dev
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.endpoint.websocket import WebSocketEndpoint
 
@@ -22,7 +22,7 @@ class DataClient:
         def __init__(
             self, data_admin_secret, dev=False,
         ):
-            self.schema = schema_prod if not dev else schema_dev
+            self.schema = schema if not dev else schema_dev
 
             data_https_url = DATA_HTTPS_URL if not dev else DATA_HTTPS_URL_DEV
             data_wss_url = DATA_WSS_URL if not dev else DATA_WSS_URL_DEV
