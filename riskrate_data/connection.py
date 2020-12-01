@@ -1,10 +1,14 @@
 from sgqlc.operation import Operation
-from .schema import schema
+from .schema import schema as schema_prod
+from .schema_dev import schema as schema_dev
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.endpoint.websocket import WebSocketEndpoint
 
 DATA_HTTPS_URL = 'https://data.riskrate.io/v1/graphql'
 DATA_WSS_URL = 'wss://data.riskrate.io/v1/graphql'
+
+DATA_HTTPS_URL_DEV = 'https://data.riskrate.io/v1/graphql'
+DATA_WSS_URL_DEV = 'wss://data.riskrate.io/v1/graphql'
 
 
 class DataClient:
@@ -16,11 +20,12 @@ class DataClient:
 
     class __DataClient:
         def __init__(
-            self,
-            data_admin_secret,
-            data_https_url=DATA_HTTPS_URL,
-            data_wss_url=DATA_WSS_URL,
+            self, data_admin_secret, dev=False,
         ):
+            self.schema = schema_prod if not dev else schema_dev
+
+            data_https_url = DATA_HTTPS_URL if not dev else DATA_HTTPS_URL_DEV
+            data_wss_url = DATA_WSS_URL if not dev else DATA_WSS_URL_DEV
 
             # Set up clients
             self.https_client = HTTPEndpoint(
@@ -35,21 +40,21 @@ class DataClient:
             Returns a query object.
             """
 
-            return Operation(schema.query_type, *args, **kwargs)
+            return Operation(self.schema.query_type, *args, **kwargs)
 
         def mutation(self, *args, **kwargs):
             """
             Returns mutation object.
             """
 
-            return Operation(schema.mutation_type, *args, **kwargs)
+            return Operation(self.schema.mutation_type, *args, **kwargs)
 
         def subscription(self, *args, **kwargs):
             """
             Returns subscription object.
             """
 
-            return Operation(schema.subscription_type, *args, **kwargs)
+            return Operation(self.schema.subscription_type, *args, **kwargs)
 
         def make_query(self, query):
             """

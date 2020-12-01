@@ -6,9 +6,9 @@ from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.introspection import query, variables
 
 
-def generate_schema(data_url, data_admin_secret):
-    JSON_PATH = './riskrate_data/schema.json'
-    SCHEMA_PATH = './riskrate_data/schema.py'
+def generate_schema(data_url, data_admin_secret, schema_name):
+    JSON_PATH = './riskrate_data/{}.json'.format(schema_name)
+    SCHEMA_PATH = './riskrate_data/{}.py'.format(schema_name)
 
     endpoint = HTTPEndpoint(
         DATA_URL, {'x-hasura-admin-secret': data_admin_secret}, None
@@ -27,6 +27,16 @@ def generate_schema(data_url, data_admin_secret):
 
 
 if __name__ == '__main__':
-    DATA_ADMIN_SECRET = os.environ['DATA_ADMIN_SECRET']
+    DATA_ADMIN_SECRET = os.getenv('DATA_ADMIN_SECRET')
     DATA_URL = 'https://data.riskrate.io/v1/graphql'
-    generate_schema(data_url=DATA_URL, data_admin_secret=DATA_ADMIN_SECRET)
+    DATA_URL_DEV = 'https://data2.riskrate.io/v1/graphql'
+    generate_schema(
+        data_url=DATA_URL,
+        data_admin_secret=DATA_ADMIN_SECRET,
+        schema_name='schema',
+    )
+    generate_schema(
+        data_url=DATA_URL_DEV,
+        data_admin_secret=DATA_ADMIN_SECRET,
+        schema_name='schema_dev',
+    )
