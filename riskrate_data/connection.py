@@ -7,8 +7,8 @@ from sgqlc.endpoint.websocket import WebSocketEndpoint
 DATA_HTTPS_URL = 'https://data.riskrate.io/v1/graphql'
 DATA_WSS_URL = 'wss://data.riskrate.io/v1/graphql'
 
-DATA_HTTPS_URL_DEV = 'https://data.riskrate.io/v1/graphql'
-DATA_WSS_URL_DEV = 'wss://data.riskrate.io/v1/graphql'
+DATA_HTTPS_URL_DEV = 'https://data2.riskrate.io/v1/graphql'
+DATA_WSS_URL_DEV = 'wss://data2.riskrate.io/v1/graphql'
 
 
 class DataClient:
