@@ -52,15 +52,10 @@ def insert_chunked(data, insert_func, *args, split_size=5000, **kwargs):
     Inserts data into DB, splitting by chunks
     """
 
-    res = None
+    res = []
 
-    # Special case for empty data
-    if not data:
-        res = insert_func(data, *args, *kwargs)
-    else:
-        for i in range(0, len(data), split_size):
-            chunk = data[i : i + split_size]
-            r = insert_func(chunk, *args, *kwargs)
-            res = r if res is None else res + r
+    for i in range(0, len(data), split_size):
+        chunk = data[i : i + split_size]
+        res.append(insert_func(chunk, *args, *kwargs))
 
     return res
