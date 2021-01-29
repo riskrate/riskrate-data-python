@@ -112,17 +112,17 @@ class eb_session_info_update_column(sgqlc.types.Enum):
     __choices__ = ('company_id', 'id', 'session_id', 'time_created', 'time_updated', 'valid_until')
 
 
-class eb_transactions_constraint(sgqlc.types.Enum):
+class eb_transaction_constraint(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('eb_transactions_pkey',)
+    __choices__ = ('eb_transaction_pkey',)
 
 
-class eb_transactions_select_column(sgqlc.types.Enum):
+class eb_transaction_select_column(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
 
 
-class eb_transactions_update_column(sgqlc.types.Enum):
+class eb_transaction_update_column(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
 
@@ -1062,7 +1062,7 @@ class eb_bank_account_bool_exp(sgqlc.types.Input):
     eb_balances = sgqlc.types.Field(eb_balance_bool_exp, graphql_name='eb_balances')
     eb_session_info = sgqlc.types.Field('eb_session_info_bool_exp', graphql_name='eb_session_info')
     eb_session_info_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='eb_session_info_id')
-    eb_transactions = sgqlc.types.Field('eb_transactions_bool_exp', graphql_name='eb_transactions')
+    eb_transactions = sgqlc.types.Field('eb_transaction_bool_exp', graphql_name='eb_transactions')
     id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
     identification_hash = sgqlc.types.Field(String_comparison_exp, graphql_name='identification_hash')
     time_created = sgqlc.types.Field('timestamptz_comparison_exp', graphql_name='time_created')
@@ -1083,7 +1083,7 @@ class eb_bank_account_insert_input(sgqlc.types.Input):
     eb_balances = sgqlc.types.Field(eb_balance_arr_rel_insert_input, graphql_name='eb_balances')
     eb_session_info = sgqlc.types.Field('eb_session_info_obj_rel_insert_input', graphql_name='eb_session_info')
     eb_session_info_id = sgqlc.types.Field(Int, graphql_name='eb_session_info_id')
-    eb_transactions = sgqlc.types.Field('eb_transactions_arr_rel_insert_input', graphql_name='eb_transactions')
+    eb_transactions = sgqlc.types.Field('eb_transaction_arr_rel_insert_input', graphql_name='eb_transactions')
     id = sgqlc.types.Field(Int, graphql_name='id')
     identification_hash = sgqlc.types.Field(String, graphql_name='identification_hash')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
@@ -1134,7 +1134,7 @@ class eb_bank_account_order_by(sgqlc.types.Input):
     eb_balances_aggregate = sgqlc.types.Field(eb_balance_aggregate_order_by, graphql_name='eb_balances_aggregate')
     eb_session_info = sgqlc.types.Field('eb_session_info_order_by', graphql_name='eb_session_info')
     eb_session_info_id = sgqlc.types.Field(order_by, graphql_name='eb_session_info_id')
-    eb_transactions_aggregate = sgqlc.types.Field('eb_transactions_aggregate_order_by', graphql_name='eb_transactions_aggregate')
+    eb_transactions_aggregate = sgqlc.types.Field('eb_transaction_aggregate_order_by', graphql_name='eb_transactions_aggregate')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     identification_hash = sgqlc.types.Field(order_by, graphql_name='identification_hash')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
@@ -1556,30 +1556,30 @@ class eb_session_info_variance_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_aggregate_order_by(sgqlc.types.Input):
+class eb_transaction_aggregate_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('avg', 'count', 'max', 'min', 'stddev', 'stddev_pop', 'stddev_samp', 'sum', 'var_pop', 'var_samp', 'variance')
-    avg = sgqlc.types.Field('eb_transactions_avg_order_by', graphql_name='avg')
+    avg = sgqlc.types.Field('eb_transaction_avg_order_by', graphql_name='avg')
     count = sgqlc.types.Field(order_by, graphql_name='count')
-    max = sgqlc.types.Field('eb_transactions_max_order_by', graphql_name='max')
-    min = sgqlc.types.Field('eb_transactions_min_order_by', graphql_name='min')
-    stddev = sgqlc.types.Field('eb_transactions_stddev_order_by', graphql_name='stddev')
-    stddev_pop = sgqlc.types.Field('eb_transactions_stddev_pop_order_by', graphql_name='stddev_pop')
-    stddev_samp = sgqlc.types.Field('eb_transactions_stddev_samp_order_by', graphql_name='stddev_samp')
-    sum = sgqlc.types.Field('eb_transactions_sum_order_by', graphql_name='sum')
-    var_pop = sgqlc.types.Field('eb_transactions_var_pop_order_by', graphql_name='var_pop')
-    var_samp = sgqlc.types.Field('eb_transactions_var_samp_order_by', graphql_name='var_samp')
-    variance = sgqlc.types.Field('eb_transactions_variance_order_by', graphql_name='variance')
+    max = sgqlc.types.Field('eb_transaction_max_order_by', graphql_name='max')
+    min = sgqlc.types.Field('eb_transaction_min_order_by', graphql_name='min')
+    stddev = sgqlc.types.Field('eb_transaction_stddev_order_by', graphql_name='stddev')
+    stddev_pop = sgqlc.types.Field('eb_transaction_stddev_pop_order_by', graphql_name='stddev_pop')
+    stddev_samp = sgqlc.types.Field('eb_transaction_stddev_samp_order_by', graphql_name='stddev_samp')
+    sum = sgqlc.types.Field('eb_transaction_sum_order_by', graphql_name='sum')
+    var_pop = sgqlc.types.Field('eb_transaction_var_pop_order_by', graphql_name='var_pop')
+    var_samp = sgqlc.types.Field('eb_transaction_var_samp_order_by', graphql_name='var_samp')
+    variance = sgqlc.types.Field('eb_transaction_variance_order_by', graphql_name='variance')
 
 
-class eb_transactions_arr_rel_insert_input(sgqlc.types.Input):
+class eb_transaction_arr_rel_insert_input(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('data', 'on_conflict')
-    data = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transactions_insert_input'))), graphql_name='data')
-    on_conflict = sgqlc.types.Field('eb_transactions_on_conflict', graphql_name='on_conflict')
+    data = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transaction_insert_input'))), graphql_name='data')
+    on_conflict = sgqlc.types.Field('eb_transaction_on_conflict', graphql_name='on_conflict')
 
 
-class eb_transactions_avg_order_by(sgqlc.types.Input):
+class eb_transaction_avg_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1587,12 +1587,12 @@ class eb_transactions_avg_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_bool_exp(sgqlc.types.Input):
+class eb_transaction_bool_exp(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('_and', '_not', '_or', 'amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
-    _and = sgqlc.types.Field(sgqlc.types.list_of('eb_transactions_bool_exp'), graphql_name='_and')
-    _not = sgqlc.types.Field('eb_transactions_bool_exp', graphql_name='_not')
-    _or = sgqlc.types.Field(sgqlc.types.list_of('eb_transactions_bool_exp'), graphql_name='_or')
+    _and = sgqlc.types.Field(sgqlc.types.list_of('eb_transaction_bool_exp'), graphql_name='_and')
+    _not = sgqlc.types.Field('eb_transaction_bool_exp', graphql_name='_not')
+    _or = sgqlc.types.Field(sgqlc.types.list_of('eb_transaction_bool_exp'), graphql_name='_or')
     amount = sgqlc.types.Field('float8_comparison_exp', graphql_name='amount')
     bank_transaction_code_code = sgqlc.types.Field(String_comparison_exp, graphql_name='bank_transaction_code_code')
     bank_transaction_code_description = sgqlc.types.Field(String_comparison_exp, graphql_name='bank_transaction_code_description')
@@ -1635,7 +1635,7 @@ class eb_transactions_bool_exp(sgqlc.types.Input):
     value_date = sgqlc.types.Field(date_comparison_exp, graphql_name='value_date')
 
 
-class eb_transactions_inc_input(sgqlc.types.Input):
+class eb_transaction_inc_input(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
@@ -1643,7 +1643,7 @@ class eb_transactions_inc_input(sgqlc.types.Input):
     id = sgqlc.types.Field(Int, graphql_name='id')
 
 
-class eb_transactions_insert_input(sgqlc.types.Input):
+class eb_transaction_insert_input(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
@@ -1688,7 +1688,7 @@ class eb_transactions_insert_input(sgqlc.types.Input):
     value_date = sgqlc.types.Field(date, graphql_name='value_date')
 
 
-class eb_transactions_max_order_by(sgqlc.types.Input):
+class eb_transaction_max_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1732,7 +1732,7 @@ class eb_transactions_max_order_by(sgqlc.types.Input):
     value_date = sgqlc.types.Field(order_by, graphql_name='value_date')
 
 
-class eb_transactions_min_order_by(sgqlc.types.Input):
+class eb_transaction_min_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1776,22 +1776,22 @@ class eb_transactions_min_order_by(sgqlc.types.Input):
     value_date = sgqlc.types.Field(order_by, graphql_name='value_date')
 
 
-class eb_transactions_obj_rel_insert_input(sgqlc.types.Input):
+class eb_transaction_obj_rel_insert_input(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('data', 'on_conflict')
-    data = sgqlc.types.Field(sgqlc.types.non_null(eb_transactions_insert_input), graphql_name='data')
-    on_conflict = sgqlc.types.Field('eb_transactions_on_conflict', graphql_name='on_conflict')
+    data = sgqlc.types.Field(sgqlc.types.non_null(eb_transaction_insert_input), graphql_name='data')
+    on_conflict = sgqlc.types.Field('eb_transaction_on_conflict', graphql_name='on_conflict')
 
 
-class eb_transactions_on_conflict(sgqlc.types.Input):
+class eb_transaction_on_conflict(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('constraint', 'update_columns', 'where')
-    constraint = sgqlc.types.Field(sgqlc.types.non_null(eb_transactions_constraint), graphql_name='constraint')
-    update_columns = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_update_column))), graphql_name='update_columns')
-    where = sgqlc.types.Field(eb_transactions_bool_exp, graphql_name='where')
+    constraint = sgqlc.types.Field(sgqlc.types.non_null(eb_transaction_constraint), graphql_name='constraint')
+    update_columns = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_update_column))), graphql_name='update_columns')
+    where = sgqlc.types.Field(eb_transaction_bool_exp, graphql_name='where')
 
 
-class eb_transactions_order_by(sgqlc.types.Input):
+class eb_transaction_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1836,13 +1836,13 @@ class eb_transactions_order_by(sgqlc.types.Input):
     value_date = sgqlc.types.Field(order_by, graphql_name='value_date')
 
 
-class eb_transactions_pk_columns_input(sgqlc.types.Input):
+class eb_transaction_pk_columns_input(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('id',)
     id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
 
 
-class eb_transactions_set_input(sgqlc.types.Input):
+class eb_transaction_set_input(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
@@ -1886,7 +1886,7 @@ class eb_transactions_set_input(sgqlc.types.Input):
     value_date = sgqlc.types.Field(date, graphql_name='value_date')
 
 
-class eb_transactions_stddev_order_by(sgqlc.types.Input):
+class eb_transaction_stddev_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1894,7 +1894,7 @@ class eb_transactions_stddev_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_stddev_pop_order_by(sgqlc.types.Input):
+class eb_transaction_stddev_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1902,7 +1902,7 @@ class eb_transactions_stddev_pop_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_stddev_samp_order_by(sgqlc.types.Input):
+class eb_transaction_stddev_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1910,7 +1910,7 @@ class eb_transactions_stddev_samp_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_sum_order_by(sgqlc.types.Input):
+class eb_transaction_sum_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1918,7 +1918,7 @@ class eb_transactions_sum_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_var_pop_order_by(sgqlc.types.Input):
+class eb_transaction_var_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1926,7 +1926,7 @@ class eb_transactions_var_pop_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_var_samp_order_by(sgqlc.types.Input):
+class eb_transaction_var_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -1934,7 +1934,7 @@ class eb_transactions_var_samp_order_by(sgqlc.types.Input):
     id = sgqlc.types.Field(order_by, graphql_name='id')
 
 
-class eb_transactions_variance_order_by(sgqlc.types.Input):
+class eb_transaction_variance_order_by(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
@@ -4776,20 +4776,20 @@ class eb_bank_account(sgqlc.types.Type):
     )
     eb_session_info = sgqlc.types.Field(sgqlc.types.non_null('eb_session_info'), graphql_name='eb_session_info')
     eb_session_info_id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='eb_session_info_id')
-    eb_transactions = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transactions'))), graphql_name='eb_transactions', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_select_column)), graphql_name='distinct_on', default=None)),
+    eb_transactions = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transaction'))), graphql_name='eb_transactions', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(eb_transactions_bool_exp, graphql_name='where', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(eb_transaction_bool_exp, graphql_name='where', default=None)),
 ))
     )
-    eb_transactions_aggregate = sgqlc.types.Field(sgqlc.types.non_null('eb_transactions_aggregate'), graphql_name='eb_transactions_aggregate', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_select_column)), graphql_name='distinct_on', default=None)),
+    eb_transactions_aggregate = sgqlc.types.Field(sgqlc.types.non_null('eb_transaction_aggregate'), graphql_name='eb_transactions_aggregate', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(eb_transactions_bool_exp, graphql_name='where', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(eb_transaction_bool_exp, graphql_name='where', default=None)),
 ))
     )
     id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
@@ -5165,7 +5165,7 @@ class eb_session_info_variance_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Float, graphql_name='id')
 
 
-class eb_transactions(sgqlc.types.Type):
+class eb_transaction(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(sgqlc.types.non_null(float8), graphql_name='amount')
@@ -5210,34 +5210,34 @@ class eb_transactions(sgqlc.types.Type):
     value_date = sgqlc.types.Field(date, graphql_name='value_date')
 
 
-class eb_transactions_aggregate(sgqlc.types.Type):
+class eb_transaction_aggregate(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('aggregate', 'nodes')
-    aggregate = sgqlc.types.Field('eb_transactions_aggregate_fields', graphql_name='aggregate')
-    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions))), graphql_name='nodes')
+    aggregate = sgqlc.types.Field('eb_transaction_aggregate_fields', graphql_name='aggregate')
+    nodes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction))), graphql_name='nodes')
 
 
-class eb_transactions_aggregate_fields(sgqlc.types.Type):
+class eb_transaction_aggregate_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('avg', 'count', 'max', 'min', 'stddev', 'stddev_pop', 'stddev_samp', 'sum', 'var_pop', 'var_samp', 'variance')
-    avg = sgqlc.types.Field('eb_transactions_avg_fields', graphql_name='avg')
+    avg = sgqlc.types.Field('eb_transaction_avg_fields', graphql_name='avg')
     count = sgqlc.types.Field(Int, graphql_name='count', args=sgqlc.types.ArgDict((
-        ('columns', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_select_column)), graphql_name='columns', default=None)),
+        ('columns', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_select_column)), graphql_name='columns', default=None)),
         ('distinct', sgqlc.types.Arg(Boolean, graphql_name='distinct', default=None)),
 ))
     )
-    max = sgqlc.types.Field('eb_transactions_max_fields', graphql_name='max')
-    min = sgqlc.types.Field('eb_transactions_min_fields', graphql_name='min')
-    stddev = sgqlc.types.Field('eb_transactions_stddev_fields', graphql_name='stddev')
-    stddev_pop = sgqlc.types.Field('eb_transactions_stddev_pop_fields', graphql_name='stddev_pop')
-    stddev_samp = sgqlc.types.Field('eb_transactions_stddev_samp_fields', graphql_name='stddev_samp')
-    sum = sgqlc.types.Field('eb_transactions_sum_fields', graphql_name='sum')
-    var_pop = sgqlc.types.Field('eb_transactions_var_pop_fields', graphql_name='var_pop')
-    var_samp = sgqlc.types.Field('eb_transactions_var_samp_fields', graphql_name='var_samp')
-    variance = sgqlc.types.Field('eb_transactions_variance_fields', graphql_name='variance')
+    max = sgqlc.types.Field('eb_transaction_max_fields', graphql_name='max')
+    min = sgqlc.types.Field('eb_transaction_min_fields', graphql_name='min')
+    stddev = sgqlc.types.Field('eb_transaction_stddev_fields', graphql_name='stddev')
+    stddev_pop = sgqlc.types.Field('eb_transaction_stddev_pop_fields', graphql_name='stddev_pop')
+    stddev_samp = sgqlc.types.Field('eb_transaction_stddev_samp_fields', graphql_name='stddev_samp')
+    sum = sgqlc.types.Field('eb_transaction_sum_fields', graphql_name='sum')
+    var_pop = sgqlc.types.Field('eb_transaction_var_pop_fields', graphql_name='var_pop')
+    var_samp = sgqlc.types.Field('eb_transaction_var_samp_fields', graphql_name='var_samp')
+    variance = sgqlc.types.Field('eb_transaction_variance_fields', graphql_name='variance')
 
 
-class eb_transactions_avg_fields(sgqlc.types.Type):
+class eb_transaction_avg_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
@@ -5245,7 +5245,7 @@ class eb_transactions_avg_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Float, graphql_name='id')
 
 
-class eb_transactions_max_fields(sgqlc.types.Type):
+class eb_transaction_max_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
@@ -5289,7 +5289,7 @@ class eb_transactions_max_fields(sgqlc.types.Type):
     value_date = sgqlc.types.Field(date, graphql_name='value_date')
 
 
-class eb_transactions_min_fields(sgqlc.types.Type):
+class eb_transaction_min_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'bank_transaction_code_code', 'bank_transaction_code_description', 'bank_transaction_code_sub_code', 'booking_date', 'credit_debit_indicator', 'creditor_account_iban', 'creditor_account_identification', 'creditor_account_issuer', 'creditor_account_scheme_name', 'creditor_name', 'creditor_organisation_id_identification', 'creditor_organisation_id_issuer', 'creditor_organisation_id_scheme_name', 'creditor_private_id_identification', 'creditor_private_id_issuer', 'creditor_private_id_scheme_name', 'currency', 'debtor_account_iban', 'debtor_account_identification', 'debtor_account_issuer', 'debtor_account_scheme_name', 'debtor_name', 'debtor_organisation_id_identification', 'debtor_organisation_id_issuer', 'debtor_organisation_id_scheme_name', 'debtor_private_id_identification', 'debtor_private_id_issuer', 'debtor_private_id_scheme_name', 'eb_bank_account_id', 'entry_reference', 'id', 'merchant_category_code', 'remittance_information', 'status', 'time_created', 'time_updated', 'transaction_date', 'value_date')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
@@ -5333,14 +5333,14 @@ class eb_transactions_min_fields(sgqlc.types.Type):
     value_date = sgqlc.types.Field(date, graphql_name='value_date')
 
 
-class eb_transactions_mutation_response(sgqlc.types.Type):
+class eb_transaction_mutation_response(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('affected_rows', 'returning')
     affected_rows = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='affected_rows')
-    returning = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions))), graphql_name='returning')
+    returning = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction))), graphql_name='returning')
 
 
-class eb_transactions_stddev_fields(sgqlc.types.Type):
+class eb_transaction_stddev_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
@@ -5348,7 +5348,7 @@ class eb_transactions_stddev_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Float, graphql_name='id')
 
 
-class eb_transactions_stddev_pop_fields(sgqlc.types.Type):
+class eb_transaction_stddev_pop_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
@@ -5356,7 +5356,7 @@ class eb_transactions_stddev_pop_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Float, graphql_name='id')
 
 
-class eb_transactions_stddev_samp_fields(sgqlc.types.Type):
+class eb_transaction_stddev_samp_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
@@ -5364,7 +5364,7 @@ class eb_transactions_stddev_samp_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Float, graphql_name='id')
 
 
-class eb_transactions_sum_fields(sgqlc.types.Type):
+class eb_transaction_sum_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
@@ -5372,7 +5372,7 @@ class eb_transactions_sum_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Int, graphql_name='id')
 
 
-class eb_transactions_var_pop_fields(sgqlc.types.Type):
+class eb_transaction_var_pop_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
@@ -5380,7 +5380,7 @@ class eb_transactions_var_pop_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Float, graphql_name='id')
 
 
-class eb_transactions_var_samp_fields(sgqlc.types.Type):
+class eb_transaction_var_samp_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
@@ -5388,7 +5388,7 @@ class eb_transactions_var_samp_fields(sgqlc.types.Type):
     id = sgqlc.types.Field(Float, graphql_name='id')
 
 
-class eb_transactions_variance_fields(sgqlc.types.Type):
+class eb_transaction_variance_fields(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('amount', 'eb_bank_account_id', 'id')
     amount = sgqlc.types.Field(Float, graphql_name='amount')
@@ -6320,7 +6320,7 @@ class invoice_variance_fields(sgqlc.types.Type):
 
 class mutation_root(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('delete_company', 'delete_company_by_pk', 'delete_customer', 'delete_customer_by_pk', 'delete_eb_balance', 'delete_eb_balance_by_pk', 'delete_eb_bank_account', 'delete_eb_bank_account_by_pk', 'delete_eb_keys', 'delete_eb_keys_by_pk', 'delete_eb_session_info', 'delete_eb_session_info_by_pk', 'delete_eb_transactions', 'delete_eb_transactions_by_pk', 'delete_forecast', 'delete_forecast_by_pk', 'delete_forecast_event', 'delete_forecast_event_by_pk', 'delete_group', 'delete_group_by_pk', 'delete_group_relation', 'delete_group_relation_by_pk', 'delete_invoice', 'delete_invoice_by_pk', 'delete_invoice_type_enum', 'delete_invoice_type_enum_by_pk', 'delete_netvisor_info', 'delete_netvisor_info_by_pk', 'delete_payment', 'delete_payment_by_pk', 'delete_procountor_info', 'delete_procountor_info_by_pk', 'delete_role', 'delete_role_by_pk', 'delete_roles_customers', 'delete_source_enum', 'delete_source_enum_by_pk', 'insert_company', 'insert_company_one', 'insert_customer', 'insert_customer_one', 'insert_eb_balance', 'insert_eb_balance_one', 'insert_eb_bank_account', 'insert_eb_bank_account_one', 'insert_eb_keys', 'insert_eb_keys_one', 'insert_eb_session_info', 'insert_eb_session_info_one', 'insert_eb_transactions', 'insert_eb_transactions_one', 'insert_forecast', 'insert_forecast_event', 'insert_forecast_event_one', 'insert_forecast_one', 'insert_group', 'insert_group_one', 'insert_group_relation', 'insert_group_relation_one', 'insert_invoice', 'insert_invoice_one', 'insert_invoice_type_enum', 'insert_invoice_type_enum_one', 'insert_netvisor_info', 'insert_netvisor_info_one', 'insert_payment', 'insert_payment_one', 'insert_procountor_info', 'insert_procountor_info_one', 'insert_role', 'insert_role_one', 'insert_roles_customers', 'insert_roles_customers_one', 'insert_source_enum', 'insert_source_enum_one', 'update_company', 'update_company_by_pk', 'update_customer', 'update_customer_by_pk', 'update_eb_balance', 'update_eb_balance_by_pk', 'update_eb_bank_account', 'update_eb_bank_account_by_pk', 'update_eb_keys', 'update_eb_keys_by_pk', 'update_eb_session_info', 'update_eb_session_info_by_pk', 'update_eb_transactions', 'update_eb_transactions_by_pk', 'update_forecast', 'update_forecast_by_pk', 'update_forecast_event', 'update_forecast_event_by_pk', 'update_group', 'update_group_by_pk', 'update_group_relation', 'update_group_relation_by_pk', 'update_invoice', 'update_invoice_by_pk', 'update_invoice_type_enum', 'update_invoice_type_enum_by_pk', 'update_netvisor_info', 'update_netvisor_info_by_pk', 'update_payment', 'update_payment_by_pk', 'update_procountor_info', 'update_procountor_info_by_pk', 'update_role', 'update_role_by_pk', 'update_roles_customers', 'update_source_enum', 'update_source_enum_by_pk')
+    __field_names__ = ('delete_company', 'delete_company_by_pk', 'delete_customer', 'delete_customer_by_pk', 'delete_eb_balance', 'delete_eb_balance_by_pk', 'delete_eb_bank_account', 'delete_eb_bank_account_by_pk', 'delete_eb_keys', 'delete_eb_keys_by_pk', 'delete_eb_session_info', 'delete_eb_session_info_by_pk', 'delete_eb_transaction', 'delete_eb_transaction_by_pk', 'delete_forecast', 'delete_forecast_by_pk', 'delete_forecast_event', 'delete_forecast_event_by_pk', 'delete_group', 'delete_group_by_pk', 'delete_group_relation', 'delete_group_relation_by_pk', 'delete_invoice', 'delete_invoice_by_pk', 'delete_invoice_type_enum', 'delete_invoice_type_enum_by_pk', 'delete_netvisor_info', 'delete_netvisor_info_by_pk', 'delete_payment', 'delete_payment_by_pk', 'delete_procountor_info', 'delete_procountor_info_by_pk', 'delete_role', 'delete_role_by_pk', 'delete_roles_customers', 'delete_source_enum', 'delete_source_enum_by_pk', 'insert_company', 'insert_company_one', 'insert_customer', 'insert_customer_one', 'insert_eb_balance', 'insert_eb_balance_one', 'insert_eb_bank_account', 'insert_eb_bank_account_one', 'insert_eb_keys', 'insert_eb_keys_one', 'insert_eb_session_info', 'insert_eb_session_info_one', 'insert_eb_transaction', 'insert_eb_transaction_one', 'insert_forecast', 'insert_forecast_event', 'insert_forecast_event_one', 'insert_forecast_one', 'insert_group', 'insert_group_one', 'insert_group_relation', 'insert_group_relation_one', 'insert_invoice', 'insert_invoice_one', 'insert_invoice_type_enum', 'insert_invoice_type_enum_one', 'insert_netvisor_info', 'insert_netvisor_info_one', 'insert_payment', 'insert_payment_one', 'insert_procountor_info', 'insert_procountor_info_one', 'insert_role', 'insert_role_one', 'insert_roles_customers', 'insert_roles_customers_one', 'insert_source_enum', 'insert_source_enum_one', 'update_company', 'update_company_by_pk', 'update_customer', 'update_customer_by_pk', 'update_eb_balance', 'update_eb_balance_by_pk', 'update_eb_bank_account', 'update_eb_bank_account_by_pk', 'update_eb_keys', 'update_eb_keys_by_pk', 'update_eb_session_info', 'update_eb_session_info_by_pk', 'update_eb_transaction', 'update_eb_transaction_by_pk', 'update_forecast', 'update_forecast_by_pk', 'update_forecast_event', 'update_forecast_event_by_pk', 'update_group', 'update_group_by_pk', 'update_group_relation', 'update_group_relation_by_pk', 'update_invoice', 'update_invoice_by_pk', 'update_invoice_type_enum', 'update_invoice_type_enum_by_pk', 'update_netvisor_info', 'update_netvisor_info_by_pk', 'update_payment', 'update_payment_by_pk', 'update_procountor_info', 'update_procountor_info_by_pk', 'update_role', 'update_role_by_pk', 'update_roles_customers', 'update_source_enum', 'update_source_enum_by_pk')
     delete_company = sgqlc.types.Field(company_mutation_response, graphql_name='delete_company', args=sgqlc.types.ArgDict((
         ('where', sgqlc.types.Arg(sgqlc.types.non_null(company_bool_exp), graphql_name='where', default=None)),
 ))
@@ -6369,11 +6369,11 @@ class mutation_root(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
-    delete_eb_transactions = sgqlc.types.Field(eb_transactions_mutation_response, graphql_name='delete_eb_transactions', args=sgqlc.types.ArgDict((
-        ('where', sgqlc.types.Arg(sgqlc.types.non_null(eb_transactions_bool_exp), graphql_name='where', default=None)),
+    delete_eb_transaction = sgqlc.types.Field(eb_transaction_mutation_response, graphql_name='delete_eb_transaction', args=sgqlc.types.ArgDict((
+        ('where', sgqlc.types.Arg(sgqlc.types.non_null(eb_transaction_bool_exp), graphql_name='where', default=None)),
 ))
     )
-    delete_eb_transactions_by_pk = sgqlc.types.Field(eb_transactions, graphql_name='delete_eb_transactions_by_pk', args=sgqlc.types.ArgDict((
+    delete_eb_transaction_by_pk = sgqlc.types.Field(eb_transaction, graphql_name='delete_eb_transaction_by_pk', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
@@ -6530,14 +6530,14 @@ class mutation_root(sgqlc.types.Type):
         ('on_conflict', sgqlc.types.Arg(eb_session_info_on_conflict, graphql_name='on_conflict', default=None)),
 ))
     )
-    insert_eb_transactions = sgqlc.types.Field(eb_transactions_mutation_response, graphql_name='insert_eb_transactions', args=sgqlc.types.ArgDict((
-        ('objects', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_insert_input))), graphql_name='objects', default=None)),
-        ('on_conflict', sgqlc.types.Arg(eb_transactions_on_conflict, graphql_name='on_conflict', default=None)),
+    insert_eb_transaction = sgqlc.types.Field(eb_transaction_mutation_response, graphql_name='insert_eb_transaction', args=sgqlc.types.ArgDict((
+        ('objects', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_insert_input))), graphql_name='objects', default=None)),
+        ('on_conflict', sgqlc.types.Arg(eb_transaction_on_conflict, graphql_name='on_conflict', default=None)),
 ))
     )
-    insert_eb_transactions_one = sgqlc.types.Field(eb_transactions, graphql_name='insert_eb_transactions_one', args=sgqlc.types.ArgDict((
-        ('object', sgqlc.types.Arg(sgqlc.types.non_null(eb_transactions_insert_input), graphql_name='object', default=None)),
-        ('on_conflict', sgqlc.types.Arg(eb_transactions_on_conflict, graphql_name='on_conflict', default=None)),
+    insert_eb_transaction_one = sgqlc.types.Field(eb_transaction, graphql_name='insert_eb_transaction_one', args=sgqlc.types.ArgDict((
+        ('object', sgqlc.types.Arg(sgqlc.types.non_null(eb_transaction_insert_input), graphql_name='object', default=None)),
+        ('on_conflict', sgqlc.types.Arg(eb_transaction_on_conflict, graphql_name='on_conflict', default=None)),
 ))
     )
     insert_forecast = sgqlc.types.Field(forecast_mutation_response, graphql_name='insert_forecast', args=sgqlc.types.ArgDict((
@@ -6730,16 +6730,16 @@ class mutation_root(sgqlc.types.Type):
         ('pk_columns', sgqlc.types.Arg(sgqlc.types.non_null(eb_session_info_pk_columns_input), graphql_name='pk_columns', default=None)),
 ))
     )
-    update_eb_transactions = sgqlc.types.Field(eb_transactions_mutation_response, graphql_name='update_eb_transactions', args=sgqlc.types.ArgDict((
-        ('_inc', sgqlc.types.Arg(eb_transactions_inc_input, graphql_name='_inc', default=None)),
-        ('_set', sgqlc.types.Arg(eb_transactions_set_input, graphql_name='_set', default=None)),
-        ('where', sgqlc.types.Arg(sgqlc.types.non_null(eb_transactions_bool_exp), graphql_name='where', default=None)),
+    update_eb_transaction = sgqlc.types.Field(eb_transaction_mutation_response, graphql_name='update_eb_transaction', args=sgqlc.types.ArgDict((
+        ('_inc', sgqlc.types.Arg(eb_transaction_inc_input, graphql_name='_inc', default=None)),
+        ('_set', sgqlc.types.Arg(eb_transaction_set_input, graphql_name='_set', default=None)),
+        ('where', sgqlc.types.Arg(sgqlc.types.non_null(eb_transaction_bool_exp), graphql_name='where', default=None)),
 ))
     )
-    update_eb_transactions_by_pk = sgqlc.types.Field(eb_transactions, graphql_name='update_eb_transactions_by_pk', args=sgqlc.types.ArgDict((
-        ('_inc', sgqlc.types.Arg(eb_transactions_inc_input, graphql_name='_inc', default=None)),
-        ('_set', sgqlc.types.Arg(eb_transactions_set_input, graphql_name='_set', default=None)),
-        ('pk_columns', sgqlc.types.Arg(sgqlc.types.non_null(eb_transactions_pk_columns_input), graphql_name='pk_columns', default=None)),
+    update_eb_transaction_by_pk = sgqlc.types.Field(eb_transaction, graphql_name='update_eb_transaction_by_pk', args=sgqlc.types.ArgDict((
+        ('_inc', sgqlc.types.Arg(eb_transaction_inc_input, graphql_name='_inc', default=None)),
+        ('_set', sgqlc.types.Arg(eb_transaction_set_input, graphql_name='_set', default=None)),
+        ('pk_columns', sgqlc.types.Arg(sgqlc.types.non_null(eb_transaction_pk_columns_input), graphql_name='pk_columns', default=None)),
 ))
     )
     update_forecast = sgqlc.types.Field(forecast_mutation_response, graphql_name='update_forecast', args=sgqlc.types.ArgDict((
@@ -7268,7 +7268,7 @@ class procountor_info_variance_fields(sgqlc.types.Type):
 
 class query_root(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'eb_balance', 'eb_balance_aggregate', 'eb_balance_by_pk', 'eb_bank_account', 'eb_bank_account_aggregate', 'eb_bank_account_by_pk', 'eb_keys', 'eb_keys_aggregate', 'eb_keys_by_pk', 'eb_session_info', 'eb_session_info_aggregate', 'eb_session_info_by_pk', 'eb_transactions', 'eb_transactions_aggregate', 'eb_transactions_by_pk', 'forecast', 'forecast_aggregate', 'forecast_by_pk', 'forecast_event', 'forecast_event_aggregate', 'forecast_event_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
+    __field_names__ = ('company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'eb_balance', 'eb_balance_aggregate', 'eb_balance_by_pk', 'eb_bank_account', 'eb_bank_account_aggregate', 'eb_bank_account_by_pk', 'eb_keys', 'eb_keys_aggregate', 'eb_keys_by_pk', 'eb_session_info', 'eb_session_info_aggregate', 'eb_session_info_by_pk', 'eb_transaction', 'eb_transaction_aggregate', 'eb_transaction_by_pk', 'forecast', 'forecast_aggregate', 'forecast_by_pk', 'forecast_event', 'forecast_event_aggregate', 'forecast_event_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
     company = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('company'))), graphql_name='company', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(company_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
@@ -7389,23 +7389,23 @@ class query_root(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
-    eb_transactions = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transactions'))), graphql_name='eb_transactions', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_select_column)), graphql_name='distinct_on', default=None)),
+    eb_transaction = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transaction'))), graphql_name='eb_transaction', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(eb_transactions_bool_exp, graphql_name='where', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(eb_transaction_bool_exp, graphql_name='where', default=None)),
 ))
     )
-    eb_transactions_aggregate = sgqlc.types.Field(sgqlc.types.non_null('eb_transactions_aggregate'), graphql_name='eb_transactions_aggregate', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_select_column)), graphql_name='distinct_on', default=None)),
+    eb_transaction_aggregate = sgqlc.types.Field(sgqlc.types.non_null('eb_transaction_aggregate'), graphql_name='eb_transaction_aggregate', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(eb_transactions_bool_exp, graphql_name='where', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(eb_transaction_bool_exp, graphql_name='where', default=None)),
 ))
     )
-    eb_transactions_by_pk = sgqlc.types.Field('eb_transactions', graphql_name='eb_transactions_by_pk', args=sgqlc.types.ArgDict((
+    eb_transaction_by_pk = sgqlc.types.Field('eb_transaction', graphql_name='eb_transaction_by_pk', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
@@ -7951,7 +7951,7 @@ class source_enum_mutation_response(sgqlc.types.Type):
 
 class subscription_root(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'eb_balance', 'eb_balance_aggregate', 'eb_balance_by_pk', 'eb_bank_account', 'eb_bank_account_aggregate', 'eb_bank_account_by_pk', 'eb_keys', 'eb_keys_aggregate', 'eb_keys_by_pk', 'eb_session_info', 'eb_session_info_aggregate', 'eb_session_info_by_pk', 'eb_transactions', 'eb_transactions_aggregate', 'eb_transactions_by_pk', 'forecast', 'forecast_aggregate', 'forecast_by_pk', 'forecast_event', 'forecast_event_aggregate', 'forecast_event_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
+    __field_names__ = ('company', 'company_aggregate', 'company_by_pk', 'customer', 'customer_aggregate', 'customer_by_pk', 'eb_balance', 'eb_balance_aggregate', 'eb_balance_by_pk', 'eb_bank_account', 'eb_bank_account_aggregate', 'eb_bank_account_by_pk', 'eb_keys', 'eb_keys_aggregate', 'eb_keys_by_pk', 'eb_session_info', 'eb_session_info_aggregate', 'eb_session_info_by_pk', 'eb_transaction', 'eb_transaction_aggregate', 'eb_transaction_by_pk', 'forecast', 'forecast_aggregate', 'forecast_by_pk', 'forecast_event', 'forecast_event_aggregate', 'forecast_event_by_pk', 'group', 'group_aggregate', 'group_by_pk', 'group_relation', 'group_relation_aggregate', 'group_relation_by_pk', 'invoice', 'invoice_aggregate', 'invoice_by_pk', 'invoice_type_enum', 'invoice_type_enum_aggregate', 'invoice_type_enum_by_pk', 'netvisor_info', 'netvisor_info_aggregate', 'netvisor_info_by_pk', 'payment', 'payment_aggregate', 'payment_by_pk', 'procountor_info', 'procountor_info_aggregate', 'procountor_info_by_pk', 'role', 'role_aggregate', 'role_by_pk', 'roles_customers', 'roles_customers_aggregate', 'source_enum', 'source_enum_aggregate', 'source_enum_by_pk')
     company = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('company'))), graphql_name='company', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(company_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
@@ -8072,23 +8072,23 @@ class subscription_root(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
-    eb_transactions = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transactions'))), graphql_name='eb_transactions', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_select_column)), graphql_name='distinct_on', default=None)),
+    eb_transaction = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('eb_transaction'))), graphql_name='eb_transaction', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(eb_transactions_bool_exp, graphql_name='where', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(eb_transaction_bool_exp, graphql_name='where', default=None)),
 ))
     )
-    eb_transactions_aggregate = sgqlc.types.Field(sgqlc.types.non_null('eb_transactions_aggregate'), graphql_name='eb_transactions_aggregate', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_select_column)), graphql_name='distinct_on', default=None)),
+    eb_transaction_aggregate = sgqlc.types.Field(sgqlc.types.non_null('eb_transaction_aggregate'), graphql_name='eb_transaction_aggregate', args=sgqlc.types.ArgDict((
+        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transactions_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(eb_transactions_bool_exp, graphql_name='where', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(eb_transaction_order_by)), graphql_name='order_by', default=None)),
+        ('where', sgqlc.types.Arg(eb_transaction_bool_exp, graphql_name='where', default=None)),
 ))
     )
-    eb_transactions_by_pk = sgqlc.types.Field('eb_transactions', graphql_name='eb_transactions_by_pk', args=sgqlc.types.ArgDict((
+    eb_transaction_by_pk = sgqlc.types.Field('eb_transaction', graphql_name='eb_transaction_by_pk', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='id', default=None)),
 ))
     )
