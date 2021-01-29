@@ -59,12 +59,12 @@ class eb_balance_constraint(sgqlc.types.Enum):
 
 class eb_balance_select_column(sgqlc.types.Enum):
     __schema__ = schema_dev
-    __choices__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __choices__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
 
 
 class eb_balance_update_column(sgqlc.types.Enum):
     __schema__ = schema_dev
-    __choices__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __choices__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
 
 
 class eb_bank_account_constraint(sgqlc.types.Enum):
@@ -837,7 +837,7 @@ class eb_balance_avg_order_by(sgqlc.types.Input):
 
 class eb_balance_bool_exp(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('_and', '_not', '_or', 'amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('_and', '_not', '_or', 'amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     _and = sgqlc.types.Field(sgqlc.types.list_of('eb_balance_bool_exp'), graphql_name='_and')
     _not = sgqlc.types.Field('eb_balance_bool_exp', graphql_name='_not')
     _or = sgqlc.types.Field(sgqlc.types.list_of('eb_balance_bool_exp'), graphql_name='_or')
@@ -848,7 +848,7 @@ class eb_balance_bool_exp(sgqlc.types.Input):
     eb_bank_account_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
     last_change_date_time = sgqlc.types.Field('timestamp_comparison_exp', graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field('timestamp_comparison_exp', graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field('timestamp_comparison_exp', graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(String_comparison_exp, graphql_name='name')
     reference_date = sgqlc.types.Field(date_comparison_exp, graphql_name='reference_date')
     time_created = sgqlc.types.Field('timestamptz_comparison_exp', graphql_name='time_created')
@@ -865,7 +865,7 @@ class eb_balance_inc_input(sgqlc.types.Input):
 
 class eb_balance_insert_input(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     balance_type = sgqlc.types.Field(String, graphql_name='balance_type')
     currency = sgqlc.types.Field(String, graphql_name='currency')
@@ -873,7 +873,7 @@ class eb_balance_insert_input(sgqlc.types.Input):
     eb_bank_account_id = sgqlc.types.Field(Int, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(Int, graphql_name='id')
     last_change_date_time = sgqlc.types.Field(timestamp, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(timestamp, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(timestamp, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(String, graphql_name='name')
     reference_date = sgqlc.types.Field(date, graphql_name='reference_date')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
@@ -882,14 +882,14 @@ class eb_balance_insert_input(sgqlc.types.Input):
 
 class eb_balance_max_order_by(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     balance_type = sgqlc.types.Field(order_by, graphql_name='balance_type')
     currency = sgqlc.types.Field(order_by, graphql_name='currency')
     eb_bank_account_id = sgqlc.types.Field(order_by, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     last_change_date_time = sgqlc.types.Field(order_by, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(order_by, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(order_by, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(order_by, graphql_name='name')
     reference_date = sgqlc.types.Field(order_by, graphql_name='reference_date')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
@@ -898,14 +898,14 @@ class eb_balance_max_order_by(sgqlc.types.Input):
 
 class eb_balance_min_order_by(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     balance_type = sgqlc.types.Field(order_by, graphql_name='balance_type')
     currency = sgqlc.types.Field(order_by, graphql_name='currency')
     eb_bank_account_id = sgqlc.types.Field(order_by, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     last_change_date_time = sgqlc.types.Field(order_by, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(order_by, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(order_by, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(order_by, graphql_name='name')
     reference_date = sgqlc.types.Field(order_by, graphql_name='reference_date')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
@@ -929,7 +929,7 @@ class eb_balance_on_conflict(sgqlc.types.Input):
 
 class eb_balance_order_by(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(order_by, graphql_name='amount')
     balance_type = sgqlc.types.Field(order_by, graphql_name='balance_type')
     currency = sgqlc.types.Field(order_by, graphql_name='currency')
@@ -937,7 +937,7 @@ class eb_balance_order_by(sgqlc.types.Input):
     eb_bank_account_id = sgqlc.types.Field(order_by, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     last_change_date_time = sgqlc.types.Field(order_by, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(order_by, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(order_by, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(order_by, graphql_name='name')
     reference_date = sgqlc.types.Field(order_by, graphql_name='reference_date')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
@@ -952,14 +952,14 @@ class eb_balance_pk_columns_input(sgqlc.types.Input):
 
 class eb_balance_set_input(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     balance_type = sgqlc.types.Field(String, graphql_name='balance_type')
     currency = sgqlc.types.Field(String, graphql_name='currency')
     eb_bank_account_id = sgqlc.types.Field(Int, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(Int, graphql_name='id')
     last_change_date_time = sgqlc.types.Field(timestamp, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(timestamp, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(timestamp, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(String, graphql_name='name')
     reference_date = sgqlc.types.Field(date, graphql_name='reference_date')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
@@ -4609,7 +4609,7 @@ class customer_variance_fields(sgqlc.types.Type):
 
 class eb_balance(sgqlc.types.Type):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(sgqlc.types.non_null(float8), graphql_name='amount')
     balance_type = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='balance_type')
     currency = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='currency')
@@ -4617,7 +4617,7 @@ class eb_balance(sgqlc.types.Type):
     eb_bank_account_id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
     last_change_date_time = sgqlc.types.Field(timestamp, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(timestamp, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(timestamp, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     reference_date = sgqlc.types.Field(date, graphql_name='reference_date')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
@@ -4661,14 +4661,14 @@ class eb_balance_avg_fields(sgqlc.types.Type):
 
 class eb_balance_max_fields(sgqlc.types.Type):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     balance_type = sgqlc.types.Field(String, graphql_name='balance_type')
     currency = sgqlc.types.Field(String, graphql_name='currency')
     eb_bank_account_id = sgqlc.types.Field(Int, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(Int, graphql_name='id')
     last_change_date_time = sgqlc.types.Field(timestamp, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(timestamp, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(timestamp, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(String, graphql_name='name')
     reference_date = sgqlc.types.Field(date, graphql_name='reference_date')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
@@ -4677,14 +4677,14 @@ class eb_balance_max_fields(sgqlc.types.Type):
 
 class eb_balance_min_fields(sgqlc.types.Type):
     __schema__ = schema_dev
-    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_commited_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
+    __field_names__ = ('amount', 'balance_type', 'currency', 'eb_bank_account_id', 'id', 'last_change_date_time', 'last_committed_transaction', 'name', 'reference_date', 'time_created', 'time_updated')
     amount = sgqlc.types.Field(float8, graphql_name='amount')
     balance_type = sgqlc.types.Field(String, graphql_name='balance_type')
     currency = sgqlc.types.Field(String, graphql_name='currency')
     eb_bank_account_id = sgqlc.types.Field(Int, graphql_name='eb_bank_account_id')
     id = sgqlc.types.Field(Int, graphql_name='id')
     last_change_date_time = sgqlc.types.Field(timestamp, graphql_name='last_change_date_time')
-    last_commited_transaction = sgqlc.types.Field(timestamp, graphql_name='last_commited_transaction')
+    last_committed_transaction = sgqlc.types.Field(timestamp, graphql_name='last_committed_transaction')
     name = sgqlc.types.Field(String, graphql_name='name')
     reference_date = sgqlc.types.Field(date, graphql_name='reference_date')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
