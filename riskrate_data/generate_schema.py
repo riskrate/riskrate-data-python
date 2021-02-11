@@ -11,7 +11,7 @@ def generate_schema(data_url, data_admin_secret, schema_name):
     SCHEMA_PATH = './riskrate_data/{}.py'.format(schema_name)
 
     endpoint = HTTPEndpoint(
-        DATA_URL, {'x-hasura-admin-secret': data_admin_secret}, None
+        data_url, {'x-hasura-admin-secret': data_admin_secret}, None
     )
     data = endpoint(
         query, variables(include_description=False, include_deprecated=False,),
