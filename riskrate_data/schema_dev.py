@@ -143,12 +143,12 @@ class forecast_event_constraint(sgqlc.types.Enum):
 
 class forecast_event_select_column(sgqlc.types.Enum):
     __schema__ = schema_dev
-    __choices__ = ('company_id', 'data', 'id', 'time_created', 'time_updated', 'type')
+    __choices__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated', 'type')
 
 
 class forecast_event_update_column(sgqlc.types.Enum):
     __schema__ = schema_dev
-    __choices__ = ('company_id', 'data', 'id', 'time_created', 'time_updated', 'type')
+    __choices__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated', 'type')
 
 
 class forecast_select_column(sgqlc.types.Enum):
@@ -2035,13 +2035,14 @@ class forecast_event_avg_order_by(sgqlc.types.Input):
 
 class forecast_event_bool_exp(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('_and', '_not', '_or', 'company', 'company_id', 'data', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('_and', '_not', '_or', 'company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
     _and = sgqlc.types.Field(sgqlc.types.list_of('forecast_event_bool_exp'), graphql_name='_and')
     _not = sgqlc.types.Field('forecast_event_bool_exp', graphql_name='_not')
     _or = sgqlc.types.Field(sgqlc.types.list_of('forecast_event_bool_exp'), graphql_name='_or')
     company = sgqlc.types.Field(company_bool_exp, graphql_name='company')
     company_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='company_id')
     data = sgqlc.types.Field(String_comparison_exp, graphql_name='data')
+    event_class = sgqlc.types.Field(String_comparison_exp, graphql_name='event_class')
     id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_bool_exp', graphql_name='invoice_type_enum')
     time_created = sgqlc.types.Field('timestamptz_comparison_exp', graphql_name='time_created')
@@ -2058,10 +2059,11 @@ class forecast_event_inc_input(sgqlc.types.Input):
 
 class forecast_event_insert_input(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('company', 'company_id', 'data', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
     company = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='company')
     company_id = sgqlc.types.Field(Int, graphql_name='company_id')
     data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_obj_rel_insert_input', graphql_name='invoice_type_enum')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
@@ -2071,9 +2073,10 @@ class forecast_event_insert_input(sgqlc.types.Input):
 
 class forecast_event_max_order_by(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('company_id', 'data', 'id', 'time_created', 'time_updated')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
     company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     data = sgqlc.types.Field(order_by, graphql_name='data')
+    event_class = sgqlc.types.Field(order_by, graphql_name='event_class')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
     time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
@@ -2081,9 +2084,10 @@ class forecast_event_max_order_by(sgqlc.types.Input):
 
 class forecast_event_min_order_by(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('company_id', 'data', 'id', 'time_created', 'time_updated')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
     company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     data = sgqlc.types.Field(order_by, graphql_name='data')
+    event_class = sgqlc.types.Field(order_by, graphql_name='event_class')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
     time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
@@ -2106,10 +2110,11 @@ class forecast_event_on_conflict(sgqlc.types.Input):
 
 class forecast_event_order_by(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('company', 'company_id', 'data', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
     company = sgqlc.types.Field(company_order_by, graphql_name='company')
     company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     data = sgqlc.types.Field(order_by, graphql_name='data')
+    event_class = sgqlc.types.Field(order_by, graphql_name='event_class')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_order_by', graphql_name='invoice_type_enum')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
@@ -2125,9 +2130,10 @@ class forecast_event_pk_columns_input(sgqlc.types.Input):
 
 class forecast_event_set_input(sgqlc.types.Input):
     __schema__ = schema_dev
-    __field_names__ = ('company_id', 'data', 'id', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated', 'type')
     company_id = sgqlc.types.Field(Int, graphql_name='company_id')
     data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
@@ -5375,10 +5381,11 @@ class forecast_avg_fields(sgqlc.types.Type):
 
 class forecast_event(sgqlc.types.Type):
     __schema__ = schema_dev
-    __field_names__ = ('company', 'company_id', 'data', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
     company = sgqlc.types.Field('company', graphql_name='company')
     company_id = sgqlc.types.Field(Int, graphql_name='company_id')
     data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
     invoice_type_enum = sgqlc.types.Field(sgqlc.types.non_null('invoice_type_enum'), graphql_name='invoice_type_enum')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
@@ -5422,9 +5429,10 @@ class forecast_event_avg_fields(sgqlc.types.Type):
 
 class forecast_event_max_fields(sgqlc.types.Type):
     __schema__ = schema_dev
-    __field_names__ = ('company_id', 'data', 'id', 'time_created', 'time_updated')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
     company_id = sgqlc.types.Field(Int, graphql_name='company_id')
     data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
@@ -5432,9 +5440,10 @@ class forecast_event_max_fields(sgqlc.types.Type):
 
 class forecast_event_min_fields(sgqlc.types.Type):
     __schema__ = schema_dev
-    __field_names__ = ('company_id', 'data', 'id', 'time_created', 'time_updated')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
     company_id = sgqlc.types.Field(Int, graphql_name='company_id')
     data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
