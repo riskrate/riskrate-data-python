@@ -143,12 +143,12 @@ class forecast_event_constraint(sgqlc.types.Enum):
 
 class forecast_event_select_column(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('amount', 'date', 'due_date', 'id', 'predicted', 'primary_company_id', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated', 'type')
+    __choices__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated', 'type')
 
 
 class forecast_event_update_column(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('amount', 'date', 'due_date', 'id', 'predicted', 'primary_company_id', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated', 'type')
+    __choices__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated', 'type')
 
 
 class forecast_select_column(sgqlc.types.Enum):
@@ -407,7 +407,7 @@ class company_avg_order_by(sgqlc.types.Input):
 
 class company_bool_exp(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('_and', '_not', '_or', 'address', 'bankruptcy', 'business_interruption', 'eb_session_infos', 'forecast_events_by_primary', 'forecast_events_by_secondary', 'forecasts', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('_and', '_not', '_or', 'address', 'bankruptcy', 'business_interruption', 'eb_session_infos', 'forecast_events', 'forecasts', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
     _and = sgqlc.types.Field(sgqlc.types.list_of('company_bool_exp'), graphql_name='_and')
     _not = sgqlc.types.Field('company_bool_exp', graphql_name='_not')
     _or = sgqlc.types.Field(sgqlc.types.list_of('company_bool_exp'), graphql_name='_or')
@@ -415,8 +415,7 @@ class company_bool_exp(sgqlc.types.Input):
     bankruptcy = sgqlc.types.Field(Boolean_comparison_exp, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(Boolean_comparison_exp, graphql_name='business_interruption')
     eb_session_infos = sgqlc.types.Field('eb_session_info_bool_exp', graphql_name='eb_session_infos')
-    forecast_events_by_primary = sgqlc.types.Field('forecast_event_bool_exp', graphql_name='forecast_events_by_primary')
-    forecast_events_by_secondary = sgqlc.types.Field('forecast_event_bool_exp', graphql_name='forecast_events_by_secondary')
+    forecast_events = sgqlc.types.Field('forecast_event_bool_exp', graphql_name='forecast_events')
     forecasts = sgqlc.types.Field('forecast_bool_exp', graphql_name='forecasts')
     founded_date = sgqlc.types.Field('date_comparison_exp', graphql_name='founded_date')
     groups = sgqlc.types.Field('group_bool_exp', graphql_name='groups')
@@ -442,13 +441,12 @@ class company_inc_input(sgqlc.types.Input):
 
 class company_insert_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('address', 'bankruptcy', 'business_interruption', 'eb_session_infos', 'forecast_events_by_primary', 'forecast_events_by_secondary', 'forecasts', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('address', 'bankruptcy', 'business_interruption', 'eb_session_infos', 'forecast_events', 'forecasts', 'founded_date', 'groups', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_seller', 'liquidation', 'name', 'netvisor_infos', 'procountor_infos', 'restructuring', 'time_created', 'time_updated', 'vat')
     address = sgqlc.types.Field(String, graphql_name='address')
     bankruptcy = sgqlc.types.Field(Boolean, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(Boolean, graphql_name='business_interruption')
     eb_session_infos = sgqlc.types.Field('eb_session_info_arr_rel_insert_input', graphql_name='eb_session_infos')
-    forecast_events_by_primary = sgqlc.types.Field('forecast_event_arr_rel_insert_input', graphql_name='forecast_events_by_primary')
-    forecast_events_by_secondary = sgqlc.types.Field('forecast_event_arr_rel_insert_input', graphql_name='forecast_events_by_secondary')
+    forecast_events = sgqlc.types.Field('forecast_event_arr_rel_insert_input', graphql_name='forecast_events')
     forecasts = sgqlc.types.Field('forecast_arr_rel_insert_input', graphql_name='forecasts')
     founded_date = sgqlc.types.Field(date, graphql_name='founded_date')
     groups = sgqlc.types.Field('group_arr_rel_insert_input', graphql_name='groups')
@@ -509,13 +507,12 @@ class company_on_conflict(sgqlc.types.Input):
 
 class company_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('address', 'bankruptcy', 'business_interruption', 'eb_session_infos_aggregate', 'forecast_events_by_primary_aggregate', 'forecast_events_by_secondary_aggregate', 'forecasts_aggregate', 'founded_date', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer_aggregate', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos_aggregate', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('address', 'bankruptcy', 'business_interruption', 'eb_session_infos_aggregate', 'forecast_events_aggregate', 'forecasts_aggregate', 'founded_date', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer_aggregate', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos_aggregate', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
     address = sgqlc.types.Field(order_by, graphql_name='address')
     bankruptcy = sgqlc.types.Field(order_by, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(order_by, graphql_name='business_interruption')
     eb_session_infos_aggregate = sgqlc.types.Field('eb_session_info_aggregate_order_by', graphql_name='eb_session_infos_aggregate')
-    forecast_events_by_primary_aggregate = sgqlc.types.Field('forecast_event_aggregate_order_by', graphql_name='forecast_events_by_primary_aggregate')
-    forecast_events_by_secondary_aggregate = sgqlc.types.Field('forecast_event_aggregate_order_by', graphql_name='forecast_events_by_secondary_aggregate')
+    forecast_events_aggregate = sgqlc.types.Field('forecast_event_aggregate_order_by', graphql_name='forecast_events_aggregate')
     forecasts_aggregate = sgqlc.types.Field('forecast_aggregate_order_by', graphql_name='forecasts_aggregate')
     founded_date = sgqlc.types.Field(order_by, graphql_name='founded_date')
     groups_aggregate = sgqlc.types.Field('group_aggregate_order_by', graphql_name='groups_aggregate')
@@ -2031,31 +2028,23 @@ class forecast_event_arr_rel_insert_input(sgqlc.types.Input):
 
 class forecast_event_avg_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_event_bool_exp(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('_and', '_not', '_or', 'amount', 'date', 'due_date', 'id', 'invoice_type_enum', 'predicted', 'primary_company', 'primary_company_id', 'secondary_company', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated', 'type')
+    __field_names__ = ('_and', '_not', '_or', 'company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
     _and = sgqlc.types.Field(sgqlc.types.list_of('forecast_event_bool_exp'), graphql_name='_and')
     _not = sgqlc.types.Field('forecast_event_bool_exp', graphql_name='_not')
     _or = sgqlc.types.Field(sgqlc.types.list_of('forecast_event_bool_exp'), graphql_name='_or')
-    amount = sgqlc.types.Field(float8_comparison_exp, graphql_name='amount')
-    date = sgqlc.types.Field(date_comparison_exp, graphql_name='date')
-    due_date = sgqlc.types.Field(date_comparison_exp, graphql_name='due_date')
+    company = sgqlc.types.Field(company_bool_exp, graphql_name='company')
+    company_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='company_id')
+    data = sgqlc.types.Field(String_comparison_exp, graphql_name='data')
+    event_class = sgqlc.types.Field(String_comparison_exp, graphql_name='event_class')
     id = sgqlc.types.Field(Int_comparison_exp, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_bool_exp', graphql_name='invoice_type_enum')
-    predicted = sgqlc.types.Field(Boolean_comparison_exp, graphql_name='predicted')
-    primary_company = sgqlc.types.Field(company_bool_exp, graphql_name='primary_company')
-    primary_company_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='primary_company_id')
-    secondary_company = sgqlc.types.Field(company_bool_exp, graphql_name='secondary_company')
-    secondary_company_id = sgqlc.types.Field(Int_comparison_exp, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(String_comparison_exp, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(String_comparison_exp, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field('timestamptz_comparison_exp', graphql_name='time_created')
     time_updated = sgqlc.types.Field('timestamptz_comparison_exp', graphql_name='time_updated')
     type = sgqlc.types.Field('invoice_type_enum_enum_comparison_exp', graphql_name='type')
@@ -2063,28 +2052,20 @@ class forecast_event_bool_exp(sgqlc.types.Input):
 
 class forecast_event_inc_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(float8, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
     id = sgqlc.types.Field(Int, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Int, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Int, graphql_name='secondary_company_id')
 
 
 class forecast_event_insert_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'invoice_type_enum', 'predicted', 'primary_company', 'primary_company_id', 'secondary_company', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated', 'type')
-    amount = sgqlc.types.Field(float8, graphql_name='amount')
-    date = sgqlc.types.Field('date', graphql_name='date')
-    due_date = sgqlc.types.Field('date', graphql_name='due_date')
+    __field_names__ = ('company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
+    company = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='company')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_obj_rel_insert_input', graphql_name='invoice_type_enum')
-    predicted = sgqlc.types.Field(Boolean, graphql_name='predicted')
-    primary_company = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='primary_company')
-    primary_company_id = sgqlc.types.Field(Int, graphql_name='primary_company_id')
-    secondary_company = sgqlc.types.Field(company_obj_rel_insert_input, graphql_name='secondary_company')
-    secondary_company_id = sgqlc.types.Field(Int, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(String, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(String, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
     type = sgqlc.types.Field(invoice_type_enum_enum, graphql_name='type')
@@ -2092,30 +2073,22 @@ class forecast_event_insert_input(sgqlc.types.Input):
 
 class forecast_event_max_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'primary_company_id', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
-    date = sgqlc.types.Field(order_by, graphql_name='date')
-    due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    data = sgqlc.types.Field(order_by, graphql_name='data')
+    event_class = sgqlc.types.Field(order_by, graphql_name='event_class')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(order_by, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(order_by, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
     time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
 
 
 class forecast_event_min_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'primary_company_id', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
-    date = sgqlc.types.Field(order_by, graphql_name='date')
-    due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    data = sgqlc.types.Field(order_by, graphql_name='data')
+    event_class = sgqlc.types.Field(order_by, graphql_name='event_class')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(order_by, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(order_by, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
     time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
 
@@ -2137,19 +2110,13 @@ class forecast_event_on_conflict(sgqlc.types.Input):
 
 class forecast_event_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'invoice_type_enum', 'predicted', 'primary_company', 'primary_company_id', 'secondary_company', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated', 'type')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
-    date = sgqlc.types.Field(order_by, graphql_name='date')
-    due_date = sgqlc.types.Field(order_by, graphql_name='due_date')
+    __field_names__ = ('company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
+    company = sgqlc.types.Field(company_order_by, graphql_name='company')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
+    data = sgqlc.types.Field(order_by, graphql_name='data')
+    event_class = sgqlc.types.Field(order_by, graphql_name='event_class')
     id = sgqlc.types.Field(order_by, graphql_name='id')
     invoice_type_enum = sgqlc.types.Field('invoice_type_enum_order_by', graphql_name='invoice_type_enum')
-    predicted = sgqlc.types.Field(order_by, graphql_name='predicted')
-    primary_company = sgqlc.types.Field(company_order_by, graphql_name='primary_company')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company = sgqlc.types.Field(company_order_by, graphql_name='secondary_company')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(order_by, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(order_by, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(order_by, graphql_name='time_created')
     time_updated = sgqlc.types.Field(order_by, graphql_name='time_updated')
     type = sgqlc.types.Field(order_by, graphql_name='type')
@@ -2163,16 +2130,11 @@ class forecast_event_pk_columns_input(sgqlc.types.Input):
 
 class forecast_event_set_input(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'predicted', 'primary_company_id', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated', 'type')
-    amount = sgqlc.types.Field(float8, graphql_name='amount')
-    date = sgqlc.types.Field('date', graphql_name='date')
-    due_date = sgqlc.types.Field('date', graphql_name='due_date')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated', 'type')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
-    predicted = sgqlc.types.Field(Boolean, graphql_name='predicted')
-    primary_company_id = sgqlc.types.Field(Int, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Int, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(String, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(String, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
     type = sgqlc.types.Field(invoice_type_enum_enum, graphql_name='type')
@@ -2180,65 +2142,51 @@ class forecast_event_set_input(sgqlc.types.Input):
 
 class forecast_event_stddev_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_event_stddev_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_event_stddev_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_event_sum_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_event_var_pop_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_event_var_samp_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_event_variance_order_by(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(order_by, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(order_by, graphql_name='company_id')
     id = sgqlc.types.Field(order_by, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(order_by, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(order_by, graphql_name='secondary_company_id')
 
 
 class forecast_inc_input(sgqlc.types.Input):
@@ -4196,7 +4144,7 @@ class timestamptz_comparison_exp(sgqlc.types.Input):
 ########################################################################
 class company(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('address', 'bankruptcy', 'business_interruption', 'eb_session_infos', 'eb_session_infos_aggregate', 'forecast_events_by_primary', 'forecast_events_by_primary_aggregate', 'forecast_events_by_secondary', 'forecast_events_by_secondary_aggregate', 'forecasts', 'forecasts_aggregate', 'founded_date', 'groups', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_buyer_aggregate', 'invoices_by_seller', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos', 'netvisor_infos_aggregate', 'procountor_infos', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
+    __field_names__ = ('address', 'bankruptcy', 'business_interruption', 'eb_session_infos', 'eb_session_infos_aggregate', 'forecast_events', 'forecast_events_aggregate', 'forecasts', 'forecasts_aggregate', 'founded_date', 'groups', 'groups_aggregate', 'id', 'industry', 'invoices_by_buyer', 'invoices_by_buyer_aggregate', 'invoices_by_seller', 'invoices_by_seller_aggregate', 'liquidation', 'name', 'netvisor_infos', 'netvisor_infos_aggregate', 'procountor_infos', 'procountor_infos_aggregate', 'restructuring', 'time_created', 'time_updated', 'vat')
     address = sgqlc.types.Field(String, graphql_name='address')
     bankruptcy = sgqlc.types.Field(Boolean, graphql_name='bankruptcy')
     business_interruption = sgqlc.types.Field(Boolean, graphql_name='business_interruption')
@@ -4216,7 +4164,7 @@ class company(sgqlc.types.Type):
         ('where', sgqlc.types.Arg(eb_session_info_bool_exp, graphql_name='where', default=None)),
 ))
     )
-    forecast_events_by_primary = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('forecast_event'))), graphql_name='forecast_events_by_primary', args=sgqlc.types.ArgDict((
+    forecast_events = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('forecast_event'))), graphql_name='forecast_events', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_event_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -4224,23 +4172,7 @@ class company(sgqlc.types.Type):
         ('where', sgqlc.types.Arg(forecast_event_bool_exp, graphql_name='where', default=None)),
 ))
     )
-    forecast_events_by_primary_aggregate = sgqlc.types.Field(sgqlc.types.non_null('forecast_event_aggregate'), graphql_name='forecast_events_by_primary_aggregate', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_event_select_column)), graphql_name='distinct_on', default=None)),
-        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
-        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_event_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(forecast_event_bool_exp, graphql_name='where', default=None)),
-))
-    )
-    forecast_events_by_secondary = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('forecast_event'))), graphql_name='forecast_events_by_secondary', args=sgqlc.types.ArgDict((
-        ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_event_select_column)), graphql_name='distinct_on', default=None)),
-        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
-        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
-        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_event_order_by)), graphql_name='order_by', default=None)),
-        ('where', sgqlc.types.Arg(forecast_event_bool_exp, graphql_name='where', default=None)),
-))
-    )
-    forecast_events_by_secondary_aggregate = sgqlc.types.Field(sgqlc.types.non_null('forecast_event_aggregate'), graphql_name='forecast_events_by_secondary_aggregate', args=sgqlc.types.ArgDict((
+    forecast_events_aggregate = sgqlc.types.Field(sgqlc.types.non_null('forecast_event_aggregate'), graphql_name='forecast_events_aggregate', args=sgqlc.types.ArgDict((
         ('distinct_on', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(forecast_event_select_column)), graphql_name='distinct_on', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -5449,19 +5381,13 @@ class forecast_avg_fields(sgqlc.types.Type):
 
 class forecast_event(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'invoice_type_enum', 'predicted', 'primary_company', 'primary_company_id', 'secondary_company', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated', 'type')
-    amount = sgqlc.types.Field(float8, graphql_name='amount')
-    date = sgqlc.types.Field('date', graphql_name='date')
-    due_date = sgqlc.types.Field('date', graphql_name='due_date')
+    __field_names__ = ('company', 'company_id', 'data', 'event_class', 'id', 'invoice_type_enum', 'time_created', 'time_updated', 'type')
+    company = sgqlc.types.Field('company', graphql_name='company')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='id')
     invoice_type_enum = sgqlc.types.Field(sgqlc.types.non_null('invoice_type_enum'), graphql_name='invoice_type_enum')
-    predicted = sgqlc.types.Field(Boolean, graphql_name='predicted')
-    primary_company = sgqlc.types.Field(sgqlc.types.non_null(company), graphql_name='primary_company')
-    primary_company_id = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='primary_company_id')
-    secondary_company = sgqlc.types.Field(company, graphql_name='secondary_company')
-    secondary_company_id = sgqlc.types.Field(Int, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(String, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(String, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
     type = sgqlc.types.Field(sgqlc.types.non_null(invoice_type_enum_enum), graphql_name='type')
@@ -5496,39 +5422,29 @@ class forecast_event_aggregate_fields(sgqlc.types.Type):
 
 class forecast_event_avg_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(Float, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Float, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Float, graphql_name='secondary_company_id')
 
 
 class forecast_event_max_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'primary_company_id', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated')
-    amount = sgqlc.types.Field(float8, graphql_name='amount')
-    date = sgqlc.types.Field('date', graphql_name='date')
-    due_date = sgqlc.types.Field('date', graphql_name='due_date')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Int, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Int, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(String, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(String, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
 
 
 class forecast_event_min_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'date', 'due_date', 'id', 'primary_company_id', 'secondary_company_id', 'secondary_company_name', 'secondary_company_vat', 'time_created', 'time_updated')
-    amount = sgqlc.types.Field(float8, graphql_name='amount')
-    date = sgqlc.types.Field('date', graphql_name='date')
-    due_date = sgqlc.types.Field('date', graphql_name='due_date')
+    __field_names__ = ('company_id', 'data', 'event_class', 'id', 'time_created', 'time_updated')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
+    data = sgqlc.types.Field(String, graphql_name='data')
+    event_class = sgqlc.types.Field(String, graphql_name='event_class')
     id = sgqlc.types.Field(Int, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Int, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Int, graphql_name='secondary_company_id')
-    secondary_company_name = sgqlc.types.Field(String, graphql_name='secondary_company_name')
-    secondary_company_vat = sgqlc.types.Field(String, graphql_name='secondary_company_vat')
     time_created = sgqlc.types.Field(timestamptz, graphql_name='time_created')
     time_updated = sgqlc.types.Field(timestamptz, graphql_name='time_updated')
 
@@ -5542,65 +5458,51 @@ class forecast_event_mutation_response(sgqlc.types.Type):
 
 class forecast_event_stddev_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(Float, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Float, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Float, graphql_name='secondary_company_id')
 
 
 class forecast_event_stddev_pop_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(Float, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Float, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Float, graphql_name='secondary_company_id')
 
 
 class forecast_event_stddev_samp_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(Float, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Float, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Float, graphql_name='secondary_company_id')
 
 
 class forecast_event_sum_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(float8, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Int, graphql_name='company_id')
     id = sgqlc.types.Field(Int, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Int, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Int, graphql_name='secondary_company_id')
 
 
 class forecast_event_var_pop_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(Float, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Float, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Float, graphql_name='secondary_company_id')
 
 
 class forecast_event_var_samp_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(Float, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Float, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Float, graphql_name='secondary_company_id')
 
 
 class forecast_event_variance_fields(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('amount', 'id', 'primary_company_id', 'secondary_company_id')
-    amount = sgqlc.types.Field(Float, graphql_name='amount')
+    __field_names__ = ('company_id', 'id')
+    company_id = sgqlc.types.Field(Float, graphql_name='company_id')
     id = sgqlc.types.Field(Float, graphql_name='id')
-    primary_company_id = sgqlc.types.Field(Float, graphql_name='primary_company_id')
-    secondary_company_id = sgqlc.types.Field(Float, graphql_name='secondary_company_id')
 
 
 class forecast_max_fields(sgqlc.types.Type):
