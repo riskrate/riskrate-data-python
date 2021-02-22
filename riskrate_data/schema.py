@@ -208,7 +208,7 @@ class invoice_type_enum_constraint(sgqlc.types.Enum):
 
 class invoice_type_enum_enum(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('PURCHASE_INVOICE', 'SALES_INVOICE')
+    __choices__ = ('FINANCIAL', 'OTHER', 'PURCHASE_INVOICE', 'SALARY', 'SALES_INVOICE')
 
 
 class invoice_type_enum_select_column(sgqlc.types.Enum):

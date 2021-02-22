@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="riskrate-data",
-    version="0.0.24",
+    version="0.0.25",
     author="Arnor Nolen",
     author_email="andrei@riskrate.io",
     description="Riskrate Data client",
